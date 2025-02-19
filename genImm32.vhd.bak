@@ -4,8 +4,8 @@ use ieee.numeric_std.all;
 
 entity genImm32 is
     port (
-        instruction : in std_logic_vector(31 downto 0); -- Instrução de 32 bits
-        immediate : out signed(31 downto 0)           -- Imediato de 32 bits
+        instr : in std_logic_vector(31 downto 0); -- Instrução de 32 bits
+        imm32 : out signed(31 downto 0)           -- Imediato de 32 bits
     );
 end genImm32;
 

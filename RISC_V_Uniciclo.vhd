@@ -4,19 +4,19 @@ use ieee.numeric_std.all;
 
 entity RISC_V_Uniciclo is
     Port (
-        clk : in STD_LOGIC;          -- Sinal de clock
-        reset : in STD_LOGIC;         -- Sinal de reset
-        instruction : in STD_LOGIC_VECTOR(31 downto 0);  -- Instrução da ROM
-        data_from_memory : in STD_LOGIC_VECTOR(31 downto 0);  -- Dado da memória RAM
-        pc_out : out STD_LOGIC_VECTOR(31 downto 0);      -- Endereço da próxima instrução
-        data_to_memory : out STD_LOGIC_VECTOR(31 downto 0);  -- Dado para a memória RAM
-        memory_write_enable : out STD_LOGIC              -- Sinal de escrita na memória
+        clk 						: in STD_LOGIC;          					-- Sinal de clock
+        reset 						: in STD_LOGIC;         					-- Sinal de reset
+        instruction 				: in STD_LOGIC_VECTOR(31 downto 0);  	-- Instrução da ROM
+        --data_from_memory 		: in STD_LOGIC_VECTOR(31 downto 0);  	-- Dado da memória RAM
+        --pc_out 					: out STD_LOGIC_VECTOR(31 downto 0);   -- Endereço da próxima instrução
+        --data_to_memory 			: out STD_LOGIC_VECTOR(31 downto 0);  	-- Dado para a memória RAM
+        --memory_write_enable 	: out STD_LOGIC              				-- Sinal de escrita na memória
     );
 end RISC_V_Uniciclo;
 
 architecture Behavioral of RISC_V_Uniciclo is
     -- Sinais internos para interconexão dos módulos
-    signal pc_value : STD_LOGIC_VECTOR(31 downto 0);
+    signal pc_value : STD_LOGIC_VECTOR(31 downto 0) := (others => '0');
     signal next_pc : STD_LOGIC_VECTOR(31 downto 0);
     signal alu_result : STD_LOGIC_VECTOR(31 downto 0);
     signal reg_write_data : STD_LOGIC_VECTOR(31 downto 0);
@@ -28,7 +28,7 @@ architecture Behavioral of RISC_V_Uniciclo is
     signal branch_taken : STD_LOGIC;
 
     -- Instanciação dos módulos
-    component UnidadeControle is
+    component UnidadeControle is -- OK
         Port (
             opcode : in STD_LOGIC_VECTOR(6 downto 0);
             funct3 : in STD_LOGIC_VECTOR(2 downto 0);
@@ -40,37 +40,41 @@ architecture Behavioral of RISC_V_Uniciclo is
         );
     end component;
 
-    component ULA is
-        Port (
-            a : in STD_LOGIC_VECTOR(31 downto 0);
-            b : in STD_LOGIC_VECTOR(31 downto 0);
-            control : in STD_LOGIC_VECTOR(3 downto 0);
-            result : out STD_LOGIC_VECTOR(31 downto 0)
-        );
-    end component;
+	 component ULA is -- OK
+		 generic (
+			 WSIZE : natural := 32  -- Tamanho da palavra (32 bits para RISC-V)
+		 );
+		 port (
+			 A      : in STD_LOGIC_VECTOR(WSIZE-1 downto 0);  -- Entrada A (rs1)
+			 B      : in STD_LOGIC_VECTOR(WSIZE-1 downto 0);  -- Entrada B (rs2 ou imediato)
+			 control: in STD_LOGIC_VECTOR(3 downto 0);        -- Sinal de controle da ULA
+			 result : out STD_LOGIC_VECTOR(WSIZE-1 downto 0); -- Resultado da operação
+			 zero   : out STD_LOGIC                           -- Sinal "zero" (1 se resultado = 0)
+		 );
+	 end component;
 
-    component BancoRegistradores is
+    component XREGS is -- OK
         Port (
             clk : in STD_LOGIC;
             reset : in STD_LOGIC;
-            read_reg1 : in STD_LOGIC_VECTOR(4 downto 0);
-            read_reg2 : in STD_LOGIC_VECTOR(4 downto 0);
-            write_reg : in STD_LOGIC_VECTOR(4 downto 0);
+				wren  : in  std_logic; -- Habilitação de escrita
+            rs1 : in STD_LOGIC_VECTOR(4 downto 0);
+            rs2 : in STD_LOGIC_VECTOR(4 downto 0);
+            rd : in STD_LOGIC_VECTOR(4 downto 0);
             write_data : in STD_LOGIC_VECTOR(31 downto 0);
-            write_enable : in STD_LOGIC;
-            read_data1 : out STD_LOGIC_VECTOR(31 downto 0);
-            read_data2 : out STD_LOGIC_VECTOR(31 downto 0)
+            ro1 : out STD_LOGIC_VECTOR(31 downto 0);
+            ro2 : out STD_LOGIC_VECTOR(31 downto 0)
         );
     end component;
 
-    component GeradorImediatos is
+    component genImm32 is -- OK
         Port (
             instruction : in STD_LOGIC_VECTOR(31 downto 0);
             immediate : out STD_LOGIC_VECTOR(31 downto 0)
         );
     end component;
 
-    component PC is
+    component PC is -- OK
         Port (
             clk : in STD_LOGIC;
             reset : in STD_LOGIC;
@@ -80,8 +84,8 @@ architecture Behavioral of RISC_V_Uniciclo is
     end component;
 
 begin
-    -- Instanciação da Unidade de Controle
-    UC: UnidadeControle port map (
+    -- Instanciação da Unidade de Controle -- REVISADO OK
+	UC: UnidadeControle port map (
         opcode => instruction(6 downto 0),
         funct3 => instruction(14 downto 12),
         funct7 => instruction(31 downto 25),
@@ -91,34 +95,39 @@ begin
         branch_taken => branch_taken
     );
 
-    -- Instanciação da ULA
-    ULA_inst: ULA port map (
-        a => reg_read_data1,
-        b => reg_read_data2,
-        control => alu_control,
-        result => alu_result
-    );
+    -- Instanciação da ULA -- REVISADO OK
+	ULA_inst: ULA
+		generic map (
+			WSIZE => 32  -- Tamanho da palavra (32 bits)
+		)
+		port map (
+        A => reg_read_data1,        -- Valor do registrador rs1
+        B => reg_read_data2,        -- Valor do registrador rs2 ou imediato
+        control => alu_control,     -- Sinal de controle da ULA (gerado pela Unidade de Controle)
+        result => alu_result,       -- Resultado da operação
+        zero => zero                -- Sinal "zero" (1 se resultado = 0)
+		);
 
-    -- Instanciação do Banco de Registradores
+    -- Instanciação do Banco de Registradores -- REVISADO OK
     XREG: BancoRegistradores port map (
         clk => clk,
         reset => reset,
-        read_reg1 => instruction(19 downto 15),
-        read_reg2 => instruction(24 downto 20),
-        write_reg => instruction(11 downto 7),
+        rs1 => instruction(19 downto 15),
+        rs2 => instruction(24 downto 20),
+        rd => instruction(11 downto 7),
         write_data => reg_write_data,
         write_enable => reg_write_enable,
-        read_data1 => reg_read_data1,
-        read_data2 => reg_read_data2
+        ro1 => reg_read_data1,
+        ro2 => reg_read_data2
     );
 
-    -- Instanciação do Gerador de Imediatos
+    -- Instanciação do Gerador de Imediatos -- REVISADO OK
     IMM: GeradorImediatos port map (
         instruction => instruction,
         immediate => immediate
     );
 
-    -- Instanciação do PC
+    -- Instanciação do PC -- REVISADO OK
     PC_inst: PC port map (
         clk => clk,
         reset => reset,
@@ -126,11 +135,11 @@ begin
         pc_value => pc_value
     );
 
-    -- Lógica para o próximo valor do PC
+    -- Lógica para o próximo valor do PC -- REVISADO OK
     next_pc <= std_logic_vector(unsigned(pc_value) + 4 when branch_taken = '0' else
                std_logic_vector(unsigned(pc_value) + unsigned(immediate));
 
-    -- Saída do PC
+    -- Saída do PC 
     pc_out <= pc_value;
 
     -- Lógica para escrita na memória
