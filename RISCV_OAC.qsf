@@ -38,10 +38,21 @@
 
 set_global_assignment -name FAMILY "Cyclone IV GX"
 set_global_assignment -name DEVICE auto
-set_global_assignment -name TOP_LEVEL_ENTITY RISCV_OAC
+set_global_assignment -name TOP_LEVEL_ENTITY RISC_V_Uniciclo
 set_global_assignment -name ORIGINAL_QUARTUS_VERSION 13.1
 set_global_assignment -name PROJECT_CREATION_TIME_DATE "23:27:41  FEBRUARY 18, 2025"
 set_global_assignment -name LAST_QUARTUS_VERSION 13.1
 set_global_assignment -name PROJECT_OUTPUT_DIRECTORY output_files
 set_global_assignment -name EDA_SIMULATION_TOOL "ModelSim-Altera (VHDL)"
 set_global_assignment -name EDA_OUTPUT_DATA_FORMAT VHDL -section_id eda_simulation
+set_global_assignment -name VHDL_FILE XREGS_tb.vhd
+set_global_assignment -name VHDL_FILE XREGS.vhd
+set_global_assignment -name VHDL_FILE ulaRV.vhd
+set_global_assignment -name VHDL_FILE ula_tb.vhd
+set_global_assignment -name VHDL_FILE tb_rom_rv.vhd
+set_global_assignment -name VHDL_FILE tb_ram_rv.vhd
+set_global_assignment -name VHDL_FILE tb_genImm32.vhd
+set_global_assignment -name VHDL_FILE rom_rv.vhd
+set_global_assignment -name VHDL_FILE ram_rv.vhd
+set_global_assignment -name VHDL_FILE genImm32.vhd
+set_global_assignment -name VHDL_FILE RISC_V_Uniciclo.vhd
