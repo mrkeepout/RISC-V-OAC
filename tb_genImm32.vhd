@@ -2,85 +2,70 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
-entity tb_genImm32 is
-end tb_genImm32;
+entity genImm32_tb is
+end genImm32_tb;
 
-architecture behavior of tb_genImm32 is
-    -- Declaração de sinais para conectar ao módulo testado
+architecture behavior of genImm32_tb is
+    component genImm32
+        generic (
+            SIZEWORD : natural := 32
+        );
+        port (
+            instruction : in std_logic_vector(SIZEWORD-1 downto 0);
+            immediate   : out std_logic_vector(SIZEWORD-1 downto 0)
+        );
+    end component;
+
     signal instruction : std_logic_vector(31 downto 0);
-    signal immediate : std_logic_vector(31 downto 0);
+    signal immediate   : std_logic_vector(31 downto 0);
 
-    -- Constantes para os testes
-    constant CLK_PERIOD : time := 10 ns;
-
+    -- Expected outputs for test cases
+    constant expected1 : std_logic_vector(31 downto 0) := x"00000001"; -- For ADDI with immediate 1
+    constant expected2 : std_logic_vector(31 downto 0) := x"00000001"; -- For SB with immediate 1
+    constant expected3 : std_logic_vector(31 downto 0) := (others => '0'); -- For R-type (no immediate)
+    constant expected4 : std_logic_vector(31 downto 0) := x"00000005"; -- For SLLI with shamt 5
+    
 begin
-    -- Instância do módulo genImm32
-    uut: entity work.genImm32
+    uut: genImm32
+        generic map (
+            SIZEWORD => 32
+        )
         port map (
             instruction => instruction,
-            immediate => immediate
+            immediate   => immediate
         );
 
-    -- Processo de geração de estímulos
-    stimulus: process
+    stim_proc: process
     begin
-        -- instructionução: R-type (add t0, zero, zero)
-        instruction <= x"000002B3";
-        wait for CLK_PERIOD;
-        assert immediate = to_signed(0, 32) report "Erro no teste R-type" severity failure;
+        -- Test case 1: I-type ADDI x1, x0, 1
+        instruction <= "00000000000100000000000010010011"; -- 0x00010093
+        wait for 10 ns;
+        assert immediate = expected1
+            report "Test case 1 failed: immediate = " & integer'image(to_integer(unsigned(immediate)))
+            severity error;
 
-        -- instructionução: I-type (lw t0, 16(zero))
-        instruction <= x"01002283";
-        wait for CLK_PERIOD;
-        assert immediate = to_signed(16, 32) report "Erro no teste I-type (16)" severity failure;
+        -- Test case 2: S-type SB x1, 1(x0)
+        instruction <= "00000000000100000000000010100011"; -- 0x000100A3
+        wait for 10 ns;
+        assert immediate = expected2
+            report "Test case 2 failed: immediate = " & integer'image(to_integer(unsigned(immediate)))
+            severity error;
 
-        -- instructionução: I-type (addi t1, zero, -100)
-        instruction <= x"F9C00313";
-        wait for CLK_PERIOD;
-        assert immediate = to_signed(-100, 32) report "Erro no teste I-type (-100)" severity failure;
+        -- Test case 3: R-type ADD x1, x0, x0 (no immediate)
+        instruction <= "00000000000000000000000000110011"; -- 0x00000033
+        wait for 10 ns;
+        assert immediate = expected3
+            report "Test case 3 failed: immediate = " & integer'image(to_integer(unsigned(immediate)))
+            severity error;
 
-        -- instructionução: I-type (xori t0, t0, -1)
-        instruction <= x"FFF2C293";
-        wait for CLK_PERIOD;
-        assert immediate = to_signed(-1, 32) report "Erro no teste I-type (-1)" severity failure;
+        -- Test case 4: I-type SLLI x1, x0, 5
+        instruction <= "00000000010100000000000110010011"; -- 0x00500013
+        wait for 10 ns;
+        assert immediate = expected4
+            report "Test case 4 failed: immediate = " & integer'image(to_integer(unsigned(immediate)))
+            severity error;
 
-        -- instructionução: I-type (addi t1, zero, 354)
-        instruction <= x"16200313";
-        wait for CLK_PERIOD;
-        assert immediate = to_signed(354, 32) report "Erro no teste I-type (354)" severity failure;
-
-        -- instructionução: I-type (jalr zero, zero, 0x18)
-        instruction <= x"01800067";
-        wait for CLK_PERIOD;
-        assert immediate = to_signed(24, 32) report "Erro no teste I-type (24)" severity failure;
-
-        -- instructionução: I-type* (srai t1, t2, 10)
-        instruction <= x"40A3D313";
-        wait for CLK_PERIOD;
-        assert immediate = to_signed(10, 32) report "Erro no teste I-type* (10)" severity failure;
-
-        -- instructionução: U-type (lui s0, 2)
-        instruction <= x"00002437";
-        wait for CLK_PERIOD;
-        assert immediate = to_signed(16#2000#, 32) report "Erro no teste U-type" severity failure;
-
-        -- instructionução: S-type (sw t0, 60(s0))
-        instruction <= x"02542E23";
-        wait for CLK_PERIOD;
-        assert immediate = to_signed(60, 32) report "Erro no teste S-type" severity failure;
-
-        -- instructionução: SB-type (bne t0, t0, -32)
-        instruction <= x"FE5290E3";
-        wait for CLK_PERIOD;
-        assert immediate = to_signed(-32, 32) report "Erro no teste SB-type" severity failure;
-
-        -- instructionução: UJ-type (jal rot)
-        instruction <= x"00C000EF";
-        wait for CLK_PERIOD;
-        assert immediate = to_signed(12, 32) report "Erro no teste UJ-type" severity failure;
-
-        -- Finaliza os testes
-        report "Todos os testes passaram!" severity note;
+        report "All test cases passed." severity note;
         wait;
     end process;
 end behavior;

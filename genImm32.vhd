@@ -3,52 +3,69 @@ use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
 entity genImm32 is
-    port (
-        instruction : in std_logic_vector(31 downto 0); -- Instrução de 32 bits
-        immediate : out std_logic_vector(31 downto 0)   -- Imediato de 32 bits
-    );
+  generic (
+    SIZEWORD : natural := 32
+  );
+  port (
+    instruction : in  std_logic_vector(SIZEWORD-1 downto 0);
+    immediate   : out std_logic_vector(SIZEWORD-1 downto 0)
+  );
 end genImm32;
 
-architecture behavior of genImm32 is
+architecture bhv of genImm32 is
+  
+  signal imm32_temp : signed(SIZEWORD-1 downto 0);
+
+  -- Constants for different opcodes
+  constant opcode_JAL      : std_logic_vector(6 downto 0) := "1101111";
+  constant opcode_tipo_I   : std_logic_vector(6 downto 0) := "0010011";
+  constant opcode_eCALL    : std_logic_vector(6 downto 0) := "1110011";
+  constant opcode_AUIPC    : std_logic_vector(6 downto 0) := "0010111";
+  constant opcode_tipo_LUI : std_logic_vector(6 downto 0) := "0110111";
+  constant opcode_JALR     : std_logic_vector(6 downto 0) := "1100111";
+  constant opcode_tipo_B   : std_logic_vector(6 downto 0) := "1100011";
+  constant opcode_tipo_ST  : std_logic_vector(6 downto 0) := "0100011";
+  constant opcode_tipo_R   : std_logic_vector(6 downto 0) := "0110011";
+  constant opcode_tipo_IL  : std_logic_vector(6 downto 0) := "0000011";
+
 begin
-    process(instruction)
-        variable imm_temp : std_logic_vector(31 downto 0); -- Variável temporária para o imediato
-    begin
-        -- Inicializa o imediato com zero por padrão
-        imm_temp := (others => '0');
 
-        -- Decodifica o formato da instrução
-        case instruction(6 downto 0) is
-            when "0110011" => -- R-type: Imediato inexistente
-                imm_temp := (others => '0');
+  process (instruction)
 
-            when "0000011" | "0010011" | "1100111" => -- I-type
+    variable OPCODE :  std_logic_vector(6 downto 0);
+    constant ZERO :  std_logic_vector(31 downto 0) := (others => '0');
 
-                if instruction(14 downto 12) = "101" and instruction(30) = '1' then
-                    -- I-type* com shamt (shift amount)
-                    imm_temp := (31 downto 5 => '0') & instruction(24 downto 20);
-                else
-                    -- I-type comum
-                    imm_temp := (31 downto 11 => instruction(31), 10 downto 0 => instruction(30 downto 20));
-                end if;
+  begin
+    -- Separar o opcode
+    OPCODE := instruction(6 downto 0);
 
-            when "0100011" => -- S-type
-                imm_temp := (31 downto 11 => instruction(31), 10 downto 5 => instruction(30 downto 25), 4 downto 0 => instruction(11 downto 7));
+    case OPCODE is
+      when opcode_tipo_R => 
+        imm32_temp <= ( others => '0' );
 
-            when "1100011" => -- SB-type
-                imm_temp := (31 => instruction(31), 30 downto 25 => instruction(30 downto 25), 24 downto 1 => instruction(11 downto 8), 0 => '0');
+      when opcode_tipo_IL | opcode_tipo_I => 
+        imm32_temp <= resize(signed( instruction(31 downto 20) ), SIZEWORD);
 
-            when "0110111" | "0010111" => -- U-type
-                imm_temp := instruction(31 downto 12) & (11 downto 0 => '0');
+      when opcode_JALR => 
+        imm32_temp <= resize(signed( instruction(31 downto 21) & '0' ), SIZEWORD);
 
-            when "1101111" => -- UJ-type
-                imm_temp := (31 => instruction(31), 30 downto 12 => instruction(19 downto 12), 11 => instruction(20), 10 downto 1 => instruction(30 downto 21), 0 => '0');
+      when opcode_tipo_ST => 
+        imm32_temp <= resize(signed( instruction(31 downto 25) & instruction(11 downto 7) ), SIZEWORD);
 
-            when others => -- Caso não identificado
-                imm_temp := (others => '0');
-        end case;
+      when opcode_tipo_B => 
+        imm32_temp <= resize(signed( instruction(31) & instruction(7) & instruction(30 downto 25) & instruction(11 downto 8) ), SIZEWORD);
 
-        -- Atribui o resultado para a saída
-        immediate <= imm_temp;
-    end process;
-end behavior;
+      when opcode_JAL => 
+        imm32_temp <= resize(signed( instruction(31) & instruction(19 downto 12) & instruction(20) & instruction(30 downto 25) & instruction(24 downto 21) ), SIZEWORD);
+
+      when opcode_tipo_LUI | opcode_AUIPC => 
+        imm32_temp <= signed(instruction(31 downto 12) & ZERO(11 downto 0));
+      when others => 
+        imm32_temp <= ( others => '0' );
+    end case;
+
+  end process;
+
+  immediate <= std_logic_vector(imm32_temp);
+
+end architecture;
