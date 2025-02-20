@@ -31,39 +31,45 @@ begin
             when "0111" => result_internal <= std_logic_vector(shift_right(signed(A), to_integer(unsigned(B)))); -- SRA
             when "1000" => -- SLT (Set Less Than)
                 if signed(A) < signed(B) then
-                    result_internal <= (0 => '1', others => '0');  -- Resultado = 1
+                    result_internal <= (others => '0');
+                    result_internal(0) <= '1';  -- Resultado = 1
                 else
-                    result_internal <= (others => '0');            -- Resultado = 0
+                    result_internal <= (others => '0');  -- Resultado = 0
                 end if;
             when "1001" => -- SLTU (Set Less Than Unsigned)
                 if unsigned(A) < unsigned(B) then
-                    result_internal <= (0 => '1', others => '0');  -- Resultado = 1
+                    result_internal <= (others => '0');
+                    result_internal(0) <= '1';  -- Resultado = 1
                 else
-                    result_internal <= (others => '0');            -- Resultado = 0
+                    result_internal <= (others => '0');  -- Resultado = 0
                 end if;
             when "1010" => -- SGE (Set Greater Than or Equal)
                 if signed(A) >= signed(B) then
-                    result_internal <= (0 => '1', others => '0');  -- Resultado = 1
+                    result_internal <= (others => '0');
+                    result_internal(0) <= '1';  -- Resultado = 1
                 else
-                    result_internal <= (others => '0');            -- Resultado = 0
+                    result_internal <= (others => '0');  -- Resultado = 0
                 end if;
             when "1011" => -- SGEU (Set Greater Than or Equal Unsigned)
                 if unsigned(A) >= unsigned(B) then
-                    result_internal <= (0 => '1', others => '0');  -- Resultado = 1
+                    result_internal <= (others => '0');
+                    result_internal(0) <= '1';  -- Resultado = 1
                 else
-                    result_internal <= (others => '0');            -- Resultado = 0
+                    result_internal <= (others => '0');  -- Resultado = 0
                 end if;
             when "1100" => -- SEQ (Set Equal)
                 if A = B then
-                    result_internal <= (0 => '1', others => '0');  -- Resultado = 1
+                    result_internal <= (others => '0');
+                    result_internal(0) <= '1';  -- Resultado = 1
                 else
-                    result_internal <= (others => '0');            -- Resultado = 0
+                    result_internal <= (others => '0');  -- Resultado = 0
                 end if;
             when "1101" => -- SNE (Set Not Equal)
                 if A /= B then
-                    result_internal <= (0 => '1', others => '0');  -- Resultado = 1
+                    result_internal <= (others => '0');
+                    result_internal(0) <= '1';  -- Resultado = 1
                 else
-                    result_internal <= (others => '0');            -- Resultado = 0
+                    result_internal <= (others => '0');  -- Resultado = 0
                 end if;
             when others => result_internal <= (others => '0');  -- Operação inválida
         end case;

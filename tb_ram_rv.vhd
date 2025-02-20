@@ -30,7 +30,7 @@ begin
     dataout => dataout
   );
 
-  -- Processo de geracaoo do clock
+  -- Processo de geracao do clock
   clk_gen: process
   begin
     while true loop
@@ -85,7 +85,7 @@ begin
 
     wait for 10 ns;
     report "Finalizando simulacao." severity note;
-    std.env.stop;
+    assert false report "Fim da simulação" severity failure;
     wait;
   end process;
 

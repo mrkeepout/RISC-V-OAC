@@ -2,6 +2,7 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 use std.textio.all;
+use ieee.std_logic_textio.all;
 
 entity rom_rv is
   port (
@@ -27,7 +28,7 @@ architecture rtl of rom_rv is
         readline(text_file, text_line);
         hread(text_line, temp);  -- Le uma palavra de 32 bits em hexadecimal
         rom_content(i) := temp;
-        report "Endereco " & integer'image(i) & " carregado com valor " & to_hstring(temp);
+        -- report "Endereco " & integer'image(i) & " carregado com valor " & to_hstring(temp);
       else
         rom_content(i) := (others => '0');  -- Preenche o restante com zeros
       end if;

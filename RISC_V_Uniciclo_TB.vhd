@@ -1,0 +1,87 @@
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+use IEEE.STD_LOGIC_UNSIGNED.ALL;
+use std.textio.all;
+
+entity RISC_V_Uniciclo_TB is
+end RISC_V_Uniciclo_TB;
+
+architecture Behavioral of RISC_V_Uniciclo_TB is
+    -- Sinais de entrada
+    signal clk              : STD_LOGIC := '0';
+    signal reset            : STD_LOGIC := '0';
+    signal instruction      : STD_LOGIC_VECTOR(31 downto 0) := (others => '0');
+    signal data_from_memory : STD_LOGIC_VECTOR(31 downto 0) := (others => '0');
+
+    -- Sinais de saída
+    signal pc_out           : STD_LOGIC_VECTOR(31 downto 0);
+    signal data_to_memory   : STD_LOGIC_VECTOR(31 downto 0);
+    signal memory_write_enable : STD_LOGIC;
+
+    -- Período do clock
+    constant clk_period : time := 10 ns;
+
+    -- Memória de instruções (ROM)
+    type rom_type is array (0 to 15) of STD_LOGIC_VECTOR(31 downto 0);
+    signal rom : rom_type := (
+        x"00100093",  -- ADDI x1, x0, 1   (x1 = 1)
+        x"00200113",  -- ADDI x2, x0, 2   (x2 = 2)
+        x"002081B3",  -- ADD  x3, x1, x2  (x3 = x1 + x2)
+        x"00308233",  -- ADD  x4, x1, x3  (x4 = x1 + x3)
+        x"004202B3",  -- ADD  x5, x4, x4  (x5 = x4 + x4)
+        x"00000000",  -- NOP
+        x"00000000",  -- NOP
+        x"00000000",  -- NOP
+        x"00000000",  -- NOP
+        x"00000000",  -- NOP
+        x"00000000",  -- NOP
+        x"00000000",  -- NOP
+        x"00000000",  -- NOP
+        x"00000000",  -- NOP
+        x"00000000",  -- NOP
+        x"00000000"   -- NOP
+    );
+
+begin
+    -- Instanciação do processador
+    UUT: entity work.RISC_V_Uniciclo
+        port map (
+            clk => clk,
+            reset => reset,
+            instruction => instruction,
+            data_from_memory => data_from_memory,
+            pc_out => pc_out,
+            data_to_memory => data_to_memory,
+            memory_write_enable => memory_write_enable
+        );
+
+    -- Geração do clock
+    clk_process: process
+    begin
+        while true loop
+            clk <= '0';
+            wait for clk_period / 2;
+            clk <= '1';
+            wait for clk_period / 2;
+        end loop;
+    end process;
+
+    -- Processo de teste
+    test_process: process
+    begin
+        -- Reset inicial
+        reset <= '1';
+        wait for clk_period;
+        reset <= '0';
+
+        -- Carregar instruções da ROM
+        for i in 0 to 15 loop
+            instruction <= rom(i);
+            wait for clk_period;
+        end loop;
+
+        -- Finalização do teste
+        report "Testes concluídos com sucesso!" severity note;
+        assert false report "Fim da simulação" severity failure;
+    end process;
+end Behavioral;

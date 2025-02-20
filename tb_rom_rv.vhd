@@ -46,7 +46,7 @@ begin
 
     -- Finaliza a simulacao
     report "Finalizando simulacao." severity note;
-    std.env.stop;
+    assert false report "Fim da simulação" severity failure;
     wait;
   end process;
 

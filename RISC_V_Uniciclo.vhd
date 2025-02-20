@@ -1,16 +1,17 @@
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
+use std.textio.all;
 
 entity RISC_V_Uniciclo is
     Port (
         clk 						: in STD_LOGIC;          					-- Sinal de clock
         reset 						: in STD_LOGIC;         					-- Sinal de reset
         instruction 				: in STD_LOGIC_VECTOR(31 downto 0);  	-- Instrução da ROM
-        --data_from_memory 		: in STD_LOGIC_VECTOR(31 downto 0);  	-- Dado da memória RAM
-        --pc_out 					: out STD_LOGIC_VECTOR(31 downto 0);   -- Endereço da próxima instrução
-        --data_to_memory 			: out STD_LOGIC_VECTOR(31 downto 0);  	-- Dado para a memória RAM
-        --memory_write_enable 	: out STD_LOGIC              				-- Sinal de escrita na memória
+        data_from_memory 		: in STD_LOGIC_VECTOR(31 downto 0);  	-- Dado da memória RAM
+        pc_out 					: out STD_LOGIC_VECTOR(31 downto 0);   -- Endereço da próxima instrução
+        data_to_memory 			: out STD_LOGIC_VECTOR(31 downto 0);  	-- Dado para a memória RAM
+        memory_write_enable 	: out STD_LOGIC              				-- Sinal de escrita na memória
     );
 end RISC_V_Uniciclo;
 
@@ -26,6 +27,7 @@ architecture Behavioral of RISC_V_Uniciclo is
     signal alu_control : STD_LOGIC_VECTOR(3 downto 0);
     signal reg_write_enable : STD_LOGIC;
     signal branch_taken : STD_LOGIC;
+	 signal zero : STD_LOGIC;  -- Sinal "zero" da ULA
 
     -- Instanciação dos módulos
     component UnidadeControle is -- OK
@@ -109,20 +111,20 @@ begin
 		);
 
     -- Instanciação do Banco de Registradores -- REVISADO OK
-    XREG: BancoRegistradores port map (
+    XREG: XREGS port map (
         clk => clk,
         reset => reset,
         rs1 => instruction(19 downto 15),
         rs2 => instruction(24 downto 20),
         rd => instruction(11 downto 7),
         write_data => reg_write_data,
-        write_enable => reg_write_enable,
+        wren => reg_write_enable,
         ro1 => reg_read_data1,
         ro2 => reg_read_data2
     );
 
     -- Instanciação do Gerador de Imediatos -- REVISADO OK
-    IMM: GeradorImediatos port map (
+    IMM: genImm32 port map (
         instruction => instruction,
         immediate => immediate
     );
@@ -136,7 +138,7 @@ begin
     );
 
     -- Lógica para o próximo valor do PC -- REVISADO OK
-    next_pc <= std_logic_vector(unsigned(pc_value) + 4 when branch_taken = '0' else
+    next_pc <= std_logic_vector(unsigned(pc_value) + 4) when branch_taken = '0' else
                std_logic_vector(unsigned(pc_value) + unsigned(immediate));
 
     -- Saída do PC 
