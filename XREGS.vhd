@@ -4,7 +4,8 @@ use ieee.numeric_std.all;
 
 entity XREGS is
   generic (
-    WSIZE : natural := 32  -- Tamanho da palavra
+    WSIZE : natural := 32;  -- Tamanho da palavra
+	 REGS  : natural := 32  -- Quantidade de registradores
   );
   port (
     clk        : in  std_logic;  -- Clock
@@ -23,22 +24,44 @@ architecture Behavioral of XREGS is
   -- Tipo e sinal para representar os 32 registradores de 32 bits
   type reg_array is array (0 to 31) of std_logic_vector(WSIZE-1 downto 0);
   signal registers : reg_array := (others => (others => '0'));  -- Inicializa todos os registradores com 0
+  
 begin
+  
   process(clk, reset)
+  
+	 variable address : natural;
+	 
   begin
     if reset = '1' then
       -- Reset: inicializa todos os registradores com 0
       registers <= (others => (others => '0'));
+		
     elsif rising_edge(clk) then
       -- Escrever no registrador quando wren estiver habilitado e rd não for o registrador 0
-      if wren = '1' and rd /= "00000" then
-        registers(to_integer(unsigned(rd))) <= write_data;
+      if wren = '1' and reset = '0' then
+			address := to_integer(unsigned(rd));
+			
+			if address /= 0 then
+		     registers(address) <= write_data;
+			end if;
       end if;
     end if;
   end process;
 
   -- Leitura e atribuição dos valores aos registradores de saída (ro1 e ro2)
   -- Se o registrador for 0, retorna 0; caso contrário, retorna o valor do registrador
-  ro1 <= registers(to_integer(unsigned(rs1))) when rs1 /= "00000" else (others => '0');
-  ro2 <= registers(to_integer(unsigned(rs2))) when rs2 /= "00000" else (others => '0');
+  process(registers, rs1, rs2)
+  begin
+    if rs1 = "00000" then
+      ro1 <= (others => '0');
+    else
+      ro1 <= registers(to_integer(unsigned(rs1)));
+    end if;
+
+    if rs2 = "00000" then
+      ro2 <= (others => '0');
+    else
+      ro2 <= registers(to_integer(unsigned(rs2)));
+    end if;
+  end process;
 end Behavioral;

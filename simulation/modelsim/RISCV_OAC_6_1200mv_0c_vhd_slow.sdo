@@ -29,7 +29,7 @@
 (DELAYFILE
   (SDFVERSION "2.1")
   (DESIGN "RISC_V_Uniciclo")
-  (DATE "02/20/2025 14:04:38")
+  (DATE "02/21/2025 13:04:25")
   (VENDOR "Altera")
   (PROGRAM "Quartus II 64-Bit")
   (VERSION "Version 13.1.0 Build 162 10/23/2013 SJ Web Edition")
@@ -413,7 +413,7 @@
   )
   (CELL
     (CELLTYPE "cycloneiv_lcell_comb")
-    (INSTANCE \\UC\|Mux7\~0\\)
+    (INSTANCE \\UC\|Mux8\~0\\)
     (DELAY
       (ABSOLUTE
         (PORT datab (2952:2952:2952) (3141:3141:3141))
@@ -463,7 +463,7 @@
   )
   (CELL
     (CELLTYPE "cycloneiv_lcell_comb")
-    (INSTANCE \\UC\|Mux6\~0\\)
+    (INSTANCE \\UC\|Mux7\~0\\)
     (DELAY
       (ABSOLUTE
         (PORT datab (3706:3706:3706) (3882:3882:3882))
@@ -601,7 +601,7 @@
   )
   (CELL
     (CELLTYPE "cycloneiv_lcell_comb")
-    (INSTANCE \\UC\|Mux6\~1\\)
+    (INSTANCE \\UC\|Mux7\~1\\)
     (DELAY
       (ABSOLUTE
         (PORT dataa (2739:2739:2739) (2936:2936:2936))
@@ -705,7 +705,7 @@
   )
   (CELL
     (CELLTYPE "cycloneiv_lcell_comb")
-    (INSTANCE \\UC\|Mux7\~1\\)
+    (INSTANCE \\UC\|Mux8\~1\\)
     (DELAY
       (ABSOLUTE
         (PORT dataa (785:785:785) (755:755:755))
@@ -721,7 +721,7 @@
   )
   (CELL
     (CELLTYPE "cycloneiv_lcell_comb")
-    (INSTANCE \\UC\|Mux7\~2\\)
+    (INSTANCE \\UC\|Mux8\~2\\)
     (DELAY
       (ABSOLUTE
         (PORT dataa (3640:3640:3640) (3804:3804:3804))
@@ -4297,7 +4297,7 @@
   )
   (CELL
     (CELLTYPE "cycloneiv_lcell_comb")
-    (INSTANCE \\UC\|Mux6\~2\\)
+    (INSTANCE \\UC\|Mux7\~2\\)
     (DELAY
       (ABSOLUTE
         (PORT dataa (201:201:201) (228:228:228))

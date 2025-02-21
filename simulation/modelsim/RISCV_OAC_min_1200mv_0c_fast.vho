@@ -16,7 +16,7 @@
 -- PROGRAM "Quartus II 64-Bit"
 -- VERSION "Version 13.1.0 Build 162 10/23/2013 SJ Web Edition"
 
--- DATE "02/20/2025 14:04:37"
+-- DATE "02/21/2025 13:04:25"
 
 -- 
 -- Device: Altera EP4CGX30CF23C6 Package FBGA484
@@ -300,12 +300,12 @@ SIGNAL \clk~inputclkctrl_outclk\ : std_logic;
 SIGNAL \instruction[5]~input_o\ : std_logic;
 SIGNAL \instruction[6]~input_o\ : std_logic;
 SIGNAL \instruction[4]~input_o\ : std_logic;
-SIGNAL \UC|Mux7~0_combout\ : std_logic;
+SIGNAL \UC|Mux8~0_combout\ : std_logic;
 SIGNAL \instruction[2]~input_o\ : std_logic;
 SIGNAL \instruction[0]~input_o\ : std_logic;
 SIGNAL \instruction[1]~input_o\ : std_logic;
 SIGNAL \instruction[3]~input_o\ : std_logic;
-SIGNAL \UC|Mux6~0_combout\ : std_logic;
+SIGNAL \UC|Mux7~0_combout\ : std_logic;
 SIGNAL \IMM|Mux0~2_combout\ : std_logic;
 SIGNAL \instruction[21]~input_o\ : std_logic;
 SIGNAL \IMM|Mux31~0_combout\ : std_logic;
@@ -316,7 +316,7 @@ SIGNAL \IMM|Mux31~2_combout\ : std_logic;
 SIGNAL \instruction[7]~input_o\ : std_logic;
 SIGNAL \IMM|Mux0~3_combout\ : std_logic;
 SIGNAL \instruction[20]~input_o\ : std_logic;
-SIGNAL \UC|Mux6~1_combout\ : std_logic;
+SIGNAL \UC|Mux7~1_combout\ : std_logic;
 SIGNAL \IMM|Mux31~3_combout\ : std_logic;
 SIGNAL \IMM|Mux31~5_combout\ : std_logic;
 SIGNAL \Add0~0_combout\ : std_logic;
@@ -325,8 +325,8 @@ SIGNAL \reset~inputclkctrl_outclk\ : std_logic;
 SIGNAL \instruction[13]~input_o\ : std_logic;
 SIGNAL \instruction[14]~input_o\ : std_logic;
 SIGNAL \instruction[12]~input_o\ : std_logic;
-SIGNAL \UC|Mux7~1_combout\ : std_logic;
-SIGNAL \UC|Mux7~2_combout\ : std_logic;
+SIGNAL \UC|Mux8~1_combout\ : std_logic;
+SIGNAL \UC|Mux8~2_combout\ : std_logic;
 SIGNAL \IMM|Mux24~8_combout\ : std_logic;
 SIGNAL \IMM|Mux0~5_combout\ : std_logic;
 SIGNAL \IMM|Mux0~6_combout\ : std_logic;
@@ -585,7 +585,7 @@ SIGNAL \PC_inst|current_pc[31]~88_combout\ : std_logic;
 SIGNAL \IMM|Mux0~31_combout\ : std_logic;
 SIGNAL \Add0~61\ : std_logic;
 SIGNAL \Add0~62_combout\ : std_logic;
-SIGNAL \UC|Mux6~2_combout\ : std_logic;
+SIGNAL \UC|Mux7~2_combout\ : std_logic;
 SIGNAL \PC_inst|current_pc\ : std_logic_vector(31 DOWNTO 0);
 SIGNAL \ALT_INV_reset~inputclkctrl_outclk\ : std_logic;
 
@@ -1383,7 +1383,7 @@ GENERIC MAP (
 	open_drain_output => "false")
 -- pragma translate_on
 PORT MAP (
-	i => \UC|Mux6~2_combout\,
+	i => \UC|Mux7~2_combout\,
 	devoe => ww_devoe,
 	o => \memory_write_enable~output_o\);
 
@@ -1445,9 +1445,9 @@ PORT MAP (
 	o => \instruction[4]~input_o\);
 
 -- Location: LCCOMB_X8_Y2_N28
-\UC|Mux7~0\ : cycloneiv_lcell_comb
+\UC|Mux8~0\ : cycloneiv_lcell_comb
 -- Equation(s):
--- \UC|Mux7~0_combout\ = (\instruction[5]~input_o\ & (\instruction[6]~input_o\ & !\instruction[4]~input_o\))
+-- \UC|Mux8~0_combout\ = (\instruction[5]~input_o\ & (\instruction[6]~input_o\ & !\instruction[4]~input_o\))
 
 -- pragma translate_off
 GENERIC MAP (
@@ -1458,7 +1458,7 @@ PORT MAP (
 	datab => \instruction[5]~input_o\,
 	datac => \instruction[6]~input_o\,
 	datad => \instruction[4]~input_o\,
-	combout => \UC|Mux7~0_combout\);
+	combout => \UC|Mux8~0_combout\);
 
 -- Location: IOIBUF_X15_Y0_N8
 \instruction[2]~input\ : cycloneiv_io_ibuf
@@ -1505,9 +1505,9 @@ PORT MAP (
 	o => \instruction[3]~input_o\);
 
 -- Location: LCCOMB_X11_Y1_N16
-\UC|Mux6~0\ : cycloneiv_lcell_comb
+\UC|Mux7~0\ : cycloneiv_lcell_comb
 -- Equation(s):
--- \UC|Mux6~0_combout\ = (\instruction[0]~input_o\ & (\instruction[1]~input_o\ & !\instruction[3]~input_o\))
+-- \UC|Mux7~0_combout\ = (\instruction[0]~input_o\ & (\instruction[1]~input_o\ & !\instruction[3]~input_o\))
 
 -- pragma translate_off
 GENERIC MAP (
@@ -1518,7 +1518,7 @@ PORT MAP (
 	datab => \instruction[0]~input_o\,
 	datac => \instruction[1]~input_o\,
 	datad => \instruction[3]~input_o\,
-	combout => \UC|Mux6~0_combout\);
+	combout => \UC|Mux7~0_combout\);
 
 -- Location: LCCOMB_X9_Y2_N20
 \IMM|Mux0~2\ : cycloneiv_lcell_comb
@@ -1577,7 +1577,7 @@ PORT MAP (
 -- Location: LCCOMB_X10_Y1_N16
 \IMM|Mux31~1\ : cycloneiv_lcell_comb
 -- Equation(s):
--- \IMM|Mux31~1_combout\ = (\IMM|Mux31~0_combout\) # ((!\instruction[2]~input_o\ & (\UC|Mux6~0_combout\ & \instruction[8]~input_o\)))
+-- \IMM|Mux31~1_combout\ = (\IMM|Mux31~0_combout\) # ((!\instruction[2]~input_o\ & (\UC|Mux7~0_combout\ & \instruction[8]~input_o\)))
 
 -- pragma translate_off
 GENERIC MAP (
@@ -1586,7 +1586,7 @@ GENERIC MAP (
 -- pragma translate_on
 PORT MAP (
 	dataa => \instruction[2]~input_o\,
-	datab => \UC|Mux6~0_combout\,
+	datab => \UC|Mux7~0_combout\,
 	datac => \IMM|Mux31~0_combout\,
 	datad => \instruction[8]~input_o\,
 	combout => \IMM|Mux31~1_combout\);
@@ -1663,9 +1663,9 @@ PORT MAP (
 	o => \instruction[20]~input_o\);
 
 -- Location: LCCOMB_X11_Y1_N10
-\UC|Mux6~1\ : cycloneiv_lcell_comb
+\UC|Mux7~1\ : cycloneiv_lcell_comb
 -- Equation(s):
--- \UC|Mux6~1_combout\ = (!\instruction[4]~input_o\ & \instruction[5]~input_o\)
+-- \UC|Mux7~1_combout\ = (!\instruction[4]~input_o\ & \instruction[5]~input_o\)
 
 -- pragma translate_off
 GENERIC MAP (
@@ -1675,12 +1675,12 @@ GENERIC MAP (
 PORT MAP (
 	dataa => \instruction[4]~input_o\,
 	datac => \instruction[5]~input_o\,
-	combout => \UC|Mux6~1_combout\);
+	combout => \UC|Mux7~1_combout\);
 
 -- Location: LCCOMB_X11_Y1_N6
 \IMM|Mux31~3\ : cycloneiv_lcell_comb
 -- Equation(s):
--- \IMM|Mux31~3_combout\ = (\IMM|Mux31~2_combout\ & ((\instruction[20]~input_o\) # ((\IMM|Mux0~3_combout\ & \UC|Mux6~1_combout\)))) # (!\IMM|Mux31~2_combout\ & (\IMM|Mux0~3_combout\ & ((\UC|Mux6~1_combout\))))
+-- \IMM|Mux31~3_combout\ = (\IMM|Mux31~2_combout\ & ((\instruction[20]~input_o\) # ((\IMM|Mux0~3_combout\ & \UC|Mux7~1_combout\)))) # (!\IMM|Mux31~2_combout\ & (\IMM|Mux0~3_combout\ & ((\UC|Mux7~1_combout\))))
 
 -- pragma translate_off
 GENERIC MAP (
@@ -1691,13 +1691,13 @@ PORT MAP (
 	dataa => \IMM|Mux31~2_combout\,
 	datab => \IMM|Mux0~3_combout\,
 	datac => \instruction[20]~input_o\,
-	datad => \UC|Mux6~1_combout\,
+	datad => \UC|Mux7~1_combout\,
 	combout => \IMM|Mux31~3_combout\);
 
 -- Location: LCCOMB_X10_Y1_N18
 \IMM|Mux31~5\ : cycloneiv_lcell_comb
 -- Equation(s):
--- \IMM|Mux31~5_combout\ = (\UC|Mux7~0_combout\ & ((\IMM|Mux31~1_combout\) # ((\IMM|Mux31~4_combout\ & \IMM|Mux31~3_combout\)))) # (!\UC|Mux7~0_combout\ & (((\IMM|Mux31~4_combout\ & \IMM|Mux31~3_combout\))))
+-- \IMM|Mux31~5_combout\ = (\UC|Mux8~0_combout\ & ((\IMM|Mux31~1_combout\) # ((\IMM|Mux31~4_combout\ & \IMM|Mux31~3_combout\)))) # (!\UC|Mux8~0_combout\ & (((\IMM|Mux31~4_combout\ & \IMM|Mux31~3_combout\))))
 
 -- pragma translate_off
 GENERIC MAP (
@@ -1705,7 +1705,7 @@ GENERIC MAP (
 	sum_lutc_input => "datac")
 -- pragma translate_on
 PORT MAP (
-	dataa => \UC|Mux7~0_combout\,
+	dataa => \UC|Mux8~0_combout\,
 	datab => \IMM|Mux31~1_combout\,
 	datac => \IMM|Mux31~4_combout\,
 	datad => \IMM|Mux31~3_combout\,
@@ -1787,9 +1787,9 @@ PORT MAP (
 	o => \instruction[12]~input_o\);
 
 -- Location: LCCOMB_X10_Y1_N8
-\UC|Mux7~1\ : cycloneiv_lcell_comb
+\UC|Mux8~1\ : cycloneiv_lcell_comb
 -- Equation(s):
--- \UC|Mux7~1_combout\ = (\UC|Mux7~0_combout\ & (!\instruction[13]~input_o\ & (!\instruction[14]~input_o\ & !\instruction[12]~input_o\)))
+-- \UC|Mux8~1_combout\ = (\UC|Mux8~0_combout\ & (!\instruction[13]~input_o\ & (!\instruction[14]~input_o\ & !\instruction[12]~input_o\)))
 
 -- pragma translate_off
 GENERIC MAP (
@@ -1797,16 +1797,16 @@ GENERIC MAP (
 	sum_lutc_input => "datac")
 -- pragma translate_on
 PORT MAP (
-	dataa => \UC|Mux7~0_combout\,
+	dataa => \UC|Mux8~0_combout\,
 	datab => \instruction[13]~input_o\,
 	datac => \instruction[14]~input_o\,
 	datad => \instruction[12]~input_o\,
-	combout => \UC|Mux7~1_combout\);
+	combout => \UC|Mux8~1_combout\);
 
 -- Location: LCCOMB_X10_Y1_N2
-\UC|Mux7~2\ : cycloneiv_lcell_comb
+\UC|Mux8~2\ : cycloneiv_lcell_comb
 -- Equation(s):
--- \UC|Mux7~2_combout\ = (!\instruction[2]~input_o\ & (\UC|Mux7~1_combout\ & \UC|Mux6~0_combout\))
+-- \UC|Mux8~2_combout\ = (!\instruction[2]~input_o\ & (\UC|Mux8~1_combout\ & \UC|Mux7~0_combout\))
 
 -- pragma translate_off
 GENERIC MAP (
@@ -1815,9 +1815,9 @@ GENERIC MAP (
 -- pragma translate_on
 PORT MAP (
 	dataa => \instruction[2]~input_o\,
-	datac => \UC|Mux7~1_combout\,
-	datad => \UC|Mux6~0_combout\,
-	combout => \UC|Mux7~2_combout\);
+	datac => \UC|Mux8~1_combout\,
+	datad => \UC|Mux7~0_combout\,
+	combout => \UC|Mux8~2_combout\);
 
 -- Location: FF_X4_Y3_N1
 \PC_inst|current_pc[0]\ : dffeas
@@ -1830,7 +1830,7 @@ PORT MAP (
 	clk => \clk~inputclkctrl_outclk\,
 	d => \Add0~0_combout\,
 	clrn => \ALT_INV_reset~inputclkctrl_outclk\,
-	ena => \UC|Mux7~2_combout\,
+	ena => \UC|Mux8~2_combout\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \PC_inst|current_pc\(0));
@@ -2071,7 +2071,7 @@ PORT MAP (
 	clk => \clk~inputclkctrl_outclk\,
 	d => \Add0~2_combout\,
 	clrn => \ALT_INV_reset~inputclkctrl_outclk\,
-	ena => \UC|Mux7~2_combout\,
+	ena => \UC|Mux8~2_combout\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \PC_inst|current_pc\(1));
@@ -2230,7 +2230,7 @@ PORT MAP (
 	d => \PC_inst|current_pc[2]~30_combout\,
 	asdata => \Add0~4_combout\,
 	clrn => \ALT_INV_reset~inputclkctrl_outclk\,
-	sload => \UC|Mux7~2_combout\,
+	sload => \UC|Mux8~2_combout\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \PC_inst|current_pc\(2));
@@ -2391,7 +2391,7 @@ PORT MAP (
 	d => \PC_inst|current_pc[3]~32_combout\,
 	asdata => \Add0~6_combout\,
 	clrn => \ALT_INV_reset~inputclkctrl_outclk\,
-	sload => \UC|Mux7~2_combout\,
+	sload => \UC|Mux8~2_combout\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \PC_inst|current_pc\(3));
@@ -2540,7 +2540,7 @@ PORT MAP (
 	d => \PC_inst|current_pc[4]~34_combout\,
 	asdata => \Add0~8_combout\,
 	clrn => \ALT_INV_reset~inputclkctrl_outclk\,
-	sload => \UC|Mux7~2_combout\,
+	sload => \UC|Mux8~2_combout\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \PC_inst|current_pc\(4));
@@ -2673,7 +2673,7 @@ PORT MAP (
 	d => \PC_inst|current_pc[5]~36_combout\,
 	asdata => \Add0~10_combout\,
 	clrn => \ALT_INV_reset~inputclkctrl_outclk\,
-	sload => \UC|Mux7~2_combout\,
+	sload => \UC|Mux8~2_combout\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \PC_inst|current_pc\(5));
@@ -2805,7 +2805,7 @@ PORT MAP (
 	d => \PC_inst|current_pc[6]~38_combout\,
 	asdata => \Add0~12_combout\,
 	clrn => \ALT_INV_reset~inputclkctrl_outclk\,
-	sload => \UC|Mux7~2_combout\,
+	sload => \UC|Mux8~2_combout\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \PC_inst|current_pc\(6));
@@ -2938,7 +2938,7 @@ PORT MAP (
 	d => \PC_inst|current_pc[7]~40_combout\,
 	asdata => \Add0~14_combout\,
 	clrn => \ALT_INV_reset~inputclkctrl_outclk\,
-	sload => \UC|Mux7~2_combout\,
+	sload => \UC|Mux8~2_combout\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \PC_inst|current_pc\(7));
@@ -3070,7 +3070,7 @@ PORT MAP (
 	d => \PC_inst|current_pc[8]~42_combout\,
 	asdata => \Add0~16_combout\,
 	clrn => \ALT_INV_reset~inputclkctrl_outclk\,
-	sload => \UC|Mux7~2_combout\,
+	sload => \UC|Mux8~2_combout\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \PC_inst|current_pc\(8));
@@ -3253,7 +3253,7 @@ PORT MAP (
 	d => \PC_inst|current_pc[9]~44_combout\,
 	asdata => \Add0~18_combout\,
 	clrn => \ALT_INV_reset~inputclkctrl_outclk\,
-	sload => \UC|Mux7~2_combout\,
+	sload => \UC|Mux8~2_combout\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \PC_inst|current_pc\(9));
@@ -3374,7 +3374,7 @@ PORT MAP (
 	d => \PC_inst|current_pc[10]~46_combout\,
 	asdata => \Add0~20_combout\,
 	clrn => \ALT_INV_reset~inputclkctrl_outclk\,
-	sload => \UC|Mux7~2_combout\,
+	sload => \UC|Mux8~2_combout\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \PC_inst|current_pc\(10));
@@ -3462,7 +3462,7 @@ PORT MAP (
 -- Location: LCCOMB_X8_Y2_N0
 \IMM|Mux20~1\ : cycloneiv_lcell_comb
 -- Equation(s):
--- \IMM|Mux20~1_combout\ = (\instruction[2]~input_o\ & (\IMM|Mux20~0_combout\ & ((\UC|Mux7~0_combout\)))) # (!\instruction[2]~input_o\ & (((\IMM|Mux0~32_combout\))))
+-- \IMM|Mux20~1_combout\ = (\instruction[2]~input_o\ & (\IMM|Mux20~0_combout\ & ((\UC|Mux8~0_combout\)))) # (!\instruction[2]~input_o\ & (((\IMM|Mux0~32_combout\))))
 
 -- pragma translate_off
 GENERIC MAP (
@@ -3473,7 +3473,7 @@ PORT MAP (
 	dataa => \IMM|Mux20~0_combout\,
 	datab => \IMM|Mux0~32_combout\,
 	datac => \instruction[2]~input_o\,
-	datad => \UC|Mux7~0_combout\,
+	datad => \UC|Mux8~0_combout\,
 	combout => \IMM|Mux20~1_combout\);
 
 -- Location: LCCOMB_X4_Y3_N22
@@ -3508,7 +3508,7 @@ PORT MAP (
 	d => \PC_inst|current_pc[11]~48_combout\,
 	asdata => \Add0~22_combout\,
 	clrn => \ALT_INV_reset~inputclkctrl_outclk\,
-	sload => \UC|Mux7~2_combout\,
+	sload => \UC|Mux8~2_combout\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \PC_inst|current_pc\(11));
@@ -3709,7 +3709,7 @@ PORT MAP (
 	d => \PC_inst|current_pc[12]~50_combout\,
 	asdata => \Add0~24_combout\,
 	clrn => \ALT_INV_reset~inputclkctrl_outclk\,
-	sload => \UC|Mux7~2_combout\,
+	sload => \UC|Mux8~2_combout\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \PC_inst|current_pc\(12));
@@ -3831,7 +3831,7 @@ PORT MAP (
 	d => \PC_inst|current_pc[13]~52_combout\,
 	asdata => \Add0~26_combout\,
 	clrn => \ALT_INV_reset~inputclkctrl_outclk\,
-	sload => \UC|Mux7~2_combout\,
+	sload => \UC|Mux8~2_combout\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \PC_inst|current_pc\(13));
@@ -3963,7 +3963,7 @@ PORT MAP (
 	d => \PC_inst|current_pc[14]~54_combout\,
 	asdata => \Add0~28_combout\,
 	clrn => \ALT_INV_reset~inputclkctrl_outclk\,
-	sload => \UC|Mux7~2_combout\,
+	sload => \UC|Mux8~2_combout\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \PC_inst|current_pc\(14));
@@ -4096,7 +4096,7 @@ PORT MAP (
 	d => \PC_inst|current_pc[15]~56_combout\,
 	asdata => \Add0~30_combout\,
 	clrn => \ALT_INV_reset~inputclkctrl_outclk\,
-	sload => \UC|Mux7~2_combout\,
+	sload => \UC|Mux8~2_combout\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \PC_inst|current_pc\(15));
@@ -4228,7 +4228,7 @@ PORT MAP (
 	d => \PC_inst|current_pc[16]~58_combout\,
 	asdata => \Add0~32_combout\,
 	clrn => \ALT_INV_reset~inputclkctrl_outclk\,
-	sload => \UC|Mux7~2_combout\,
+	sload => \UC|Mux8~2_combout\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \PC_inst|current_pc\(16));
@@ -4361,7 +4361,7 @@ PORT MAP (
 	d => \PC_inst|current_pc[17]~60_combout\,
 	asdata => \Add0~34_combout\,
 	clrn => \ALT_INV_reset~inputclkctrl_outclk\,
-	sload => \UC|Mux7~2_combout\,
+	sload => \UC|Mux8~2_combout\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \PC_inst|current_pc\(17));
@@ -4493,7 +4493,7 @@ PORT MAP (
 	d => \PC_inst|current_pc[18]~62_combout\,
 	asdata => \Add0~36_combout\,
 	clrn => \ALT_INV_reset~inputclkctrl_outclk\,
-	sload => \UC|Mux7~2_combout\,
+	sload => \UC|Mux8~2_combout\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \PC_inst|current_pc\(18));
@@ -4519,7 +4519,7 @@ PORT MAP (
 -- Location: LCCOMB_X11_Y1_N0
 \IMM|Mux0~29\ : cycloneiv_lcell_comb
 -- Equation(s):
--- \IMM|Mux0~29_combout\ = (!\instruction[6]~input_o\ & (\instruction[4]~input_o\ & \UC|Mux6~0_combout\))
+-- \IMM|Mux0~29_combout\ = (!\instruction[6]~input_o\ & (\instruction[4]~input_o\ & \UC|Mux7~0_combout\))
 
 -- pragma translate_off
 GENERIC MAP (
@@ -4529,13 +4529,13 @@ GENERIC MAP (
 PORT MAP (
 	datab => \instruction[6]~input_o\,
 	datac => \instruction[4]~input_o\,
-	datad => \UC|Mux6~0_combout\,
+	datad => \UC|Mux7~0_combout\,
 	combout => \IMM|Mux0~29_combout\);
 
 -- Location: LCCOMB_X8_Y2_N14
 \IMM|Mux0~30\ : cycloneiv_lcell_comb
 -- Equation(s):
--- \IMM|Mux0~30_combout\ = (\instruction[2]~input_o\ & ((\IMM|Mux0~29_combout\) # ((\IMM|Mux0~2_combout\ & \UC|Mux7~0_combout\))))
+-- \IMM|Mux0~30_combout\ = (\instruction[2]~input_o\ & ((\IMM|Mux0~29_combout\) # ((\IMM|Mux0~2_combout\ & \UC|Mux8~0_combout\))))
 
 -- pragma translate_off
 GENERIC MAP (
@@ -4544,7 +4544,7 @@ GENERIC MAP (
 -- pragma translate_on
 PORT MAP (
 	dataa => \IMM|Mux0~2_combout\,
-	datab => \UC|Mux7~0_combout\,
+	datab => \UC|Mux8~0_combout\,
 	datac => \instruction[2]~input_o\,
 	datad => \IMM|Mux0~29_combout\,
 	combout => \IMM|Mux0~30_combout\);
@@ -4614,7 +4614,7 @@ PORT MAP (
 	d => \PC_inst|current_pc[19]~64_combout\,
 	asdata => \Add0~38_combout\,
 	clrn => \ALT_INV_reset~inputclkctrl_outclk\,
-	sload => \UC|Mux7~2_combout\,
+	sload => \UC|Mux8~2_combout\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \PC_inst|current_pc\(19));
@@ -4735,7 +4735,7 @@ PORT MAP (
 	d => \PC_inst|current_pc[20]~66_combout\,
 	asdata => \Add0~40_combout\,
 	clrn => \ALT_INV_reset~inputclkctrl_outclk\,
-	sload => \UC|Mux7~2_combout\,
+	sload => \UC|Mux8~2_combout\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \PC_inst|current_pc\(20));
@@ -4823,7 +4823,7 @@ PORT MAP (
 	d => \PC_inst|current_pc[21]~68_combout\,
 	asdata => \Add0~42_combout\,
 	clrn => \ALT_INV_reset~inputclkctrl_outclk\,
-	sload => \UC|Mux7~2_combout\,
+	sload => \UC|Mux8~2_combout\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \PC_inst|current_pc\(21));
@@ -4910,7 +4910,7 @@ PORT MAP (
 	d => \PC_inst|current_pc[22]~70_combout\,
 	asdata => \Add0~44_combout\,
 	clrn => \ALT_INV_reset~inputclkctrl_outclk\,
-	sload => \UC|Mux7~2_combout\,
+	sload => \UC|Mux8~2_combout\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \PC_inst|current_pc\(22));
@@ -4998,7 +4998,7 @@ PORT MAP (
 	d => \PC_inst|current_pc[23]~72_combout\,
 	asdata => \Add0~46_combout\,
 	clrn => \ALT_INV_reset~inputclkctrl_outclk\,
-	sload => \UC|Mux7~2_combout\,
+	sload => \UC|Mux8~2_combout\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \PC_inst|current_pc\(23));
@@ -5085,7 +5085,7 @@ PORT MAP (
 	d => \PC_inst|current_pc[24]~74_combout\,
 	asdata => \Add0~48_combout\,
 	clrn => \ALT_INV_reset~inputclkctrl_outclk\,
-	sload => \UC|Mux7~2_combout\,
+	sload => \UC|Mux8~2_combout\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \PC_inst|current_pc\(24));
@@ -5173,7 +5173,7 @@ PORT MAP (
 	d => \PC_inst|current_pc[25]~76_combout\,
 	asdata => \Add0~50_combout\,
 	clrn => \ALT_INV_reset~inputclkctrl_outclk\,
-	sload => \UC|Mux7~2_combout\,
+	sload => \UC|Mux8~2_combout\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \PC_inst|current_pc\(25));
@@ -5260,7 +5260,7 @@ PORT MAP (
 	d => \PC_inst|current_pc[26]~78_combout\,
 	asdata => \Add0~52_combout\,
 	clrn => \ALT_INV_reset~inputclkctrl_outclk\,
-	sload => \UC|Mux7~2_combout\,
+	sload => \UC|Mux8~2_combout\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \PC_inst|current_pc\(26));
@@ -5348,7 +5348,7 @@ PORT MAP (
 	d => \PC_inst|current_pc[27]~80_combout\,
 	asdata => \Add0~54_combout\,
 	clrn => \ALT_INV_reset~inputclkctrl_outclk\,
-	sload => \UC|Mux7~2_combout\,
+	sload => \UC|Mux8~2_combout\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \PC_inst|current_pc\(27));
@@ -5435,7 +5435,7 @@ PORT MAP (
 	d => \PC_inst|current_pc[28]~82_combout\,
 	asdata => \Add0~56_combout\,
 	clrn => \ALT_INV_reset~inputclkctrl_outclk\,
-	sload => \UC|Mux7~2_combout\,
+	sload => \UC|Mux8~2_combout\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \PC_inst|current_pc\(28));
@@ -5523,7 +5523,7 @@ PORT MAP (
 	d => \PC_inst|current_pc[29]~84_combout\,
 	asdata => \Add0~58_combout\,
 	clrn => \ALT_INV_reset~inputclkctrl_outclk\,
-	sload => \UC|Mux7~2_combout\,
+	sload => \UC|Mux8~2_combout\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \PC_inst|current_pc\(29));
@@ -5610,7 +5610,7 @@ PORT MAP (
 	d => \PC_inst|current_pc[30]~86_combout\,
 	asdata => \Add0~60_combout\,
 	clrn => \ALT_INV_reset~inputclkctrl_outclk\,
-	sload => \UC|Mux7~2_combout\,
+	sload => \UC|Mux8~2_combout\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \PC_inst|current_pc\(30));
@@ -5675,15 +5675,15 @@ PORT MAP (
 	d => \PC_inst|current_pc[31]~88_combout\,
 	asdata => \Add0~62_combout\,
 	clrn => \ALT_INV_reset~inputclkctrl_outclk\,
-	sload => \UC|Mux7~2_combout\,
+	sload => \UC|Mux8~2_combout\,
 	devclrn => ww_devclrn,
 	devpor => ww_devpor,
 	q => \PC_inst|current_pc\(31));
 
 -- Location: LCCOMB_X11_Y1_N24
-\UC|Mux6~2\ : cycloneiv_lcell_comb
+\UC|Mux7~2\ : cycloneiv_lcell_comb
 -- Equation(s):
--- \UC|Mux6~2_combout\ = (\UC|Mux6~1_combout\ & (!\instruction[6]~input_o\ & (!\instruction[2]~input_o\ & \UC|Mux6~0_combout\)))
+-- \UC|Mux7~2_combout\ = (\UC|Mux7~1_combout\ & (!\instruction[6]~input_o\ & (!\instruction[2]~input_o\ & \UC|Mux7~0_combout\)))
 
 -- pragma translate_off
 GENERIC MAP (
@@ -5691,11 +5691,11 @@ GENERIC MAP (
 	sum_lutc_input => "datac")
 -- pragma translate_on
 PORT MAP (
-	dataa => \UC|Mux6~1_combout\,
+	dataa => \UC|Mux7~1_combout\,
 	datab => \instruction[6]~input_o\,
 	datac => \instruction[2]~input_o\,
-	datad => \UC|Mux6~0_combout\,
-	combout => \UC|Mux6~2_combout\);
+	datad => \UC|Mux7~0_combout\,
+	combout => \UC|Mux7~2_combout\);
 
 -- Location: IOIBUF_X38_Y0_N8
 \data_from_memory[0]~input\ : cycloneiv_io_ibuf

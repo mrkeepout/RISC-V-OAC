@@ -9,8 +9,7 @@ entity UnidadeControle is
         alu_control : out STD_LOGIC_VECTOR(3 downto 0);  -- Controle da ULA
         reg_write_enable : out STD_LOGIC;                -- Sinal de escrita no banco de registradores
         memory_write_enable : out STD_LOGIC;             -- Sinal de escrita na memória
-        branch_taken : out STD_LOGIC;                    -- Sinal de desvio (branch)
-        alu_src : out STD_LOGIC                          -- Sinal de seleção para o MUX
+        branch_taken : out STD_LOGIC                     -- Sinal de desvio (branch)
     );
 end UnidadeControle;
 
@@ -23,7 +22,6 @@ begin
         reg_write_enable <= '0';
         memory_write_enable <= '0';
         branch_taken <= '0';
-        alu_src <= '0';
 
         -- Decodificação do opcode
         case opcode is
@@ -40,7 +38,6 @@ begin
                     when others => null;
                 end case;
                 reg_write_enable <= '1';  -- Habilita escrita no banco de registradores
-                alu_src <= '0';  -- Usar valor do registrador rs2 como entrada B da ULA
 
             when "0010011" =>  -- Tipo I (operações com imediato)
                 case funct3 is
@@ -49,11 +46,9 @@ begin
                     when others => null;
                 end case;
                 reg_write_enable <= '1';  -- Habilita escrita no banco de registradores
-                alu_src <= '1';  -- Usar imediato como entrada B da ULA
 
             when "0100011" =>  -- Tipo S (store)
                 memory_write_enable <= '1';  -- Habilita escrita na memória
-                alu_src <= '1';  -- Usar imediato como entrada B da ULA
 
             when "1100011" =>  -- Tipo B (branch)
                 case funct3 is
@@ -61,7 +56,6 @@ begin
                         branch_taken <= '1';  -- Habilita desvio
                     when others => null;
                 end case;
-                alu_src <= '0';  -- Usar valor do registrador rs2 como entrada B da ULA
 
             when others => null;
         end case;
