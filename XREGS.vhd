@@ -5,7 +5,7 @@ use ieee.numeric_std.all;
 entity XREGS is
   generic (
     WSIZE : natural := 32;  -- Tamanho da palavra
-	 REGS  : natural := 32  -- Quantidade de registradores
+	  REGS  : natural := 32  -- Quantidade de registradores
   );
   port (
     clk        : in  std_logic;  -- Clock
@@ -38,7 +38,7 @@ begin
 		
     elsif rising_edge(clk) then
       -- Escrever no registrador quando wren estiver habilitado e rd não for o registrador 0
-      if wren = '1' and reset = '0' then
+      if wren = '1' then
 			address := to_integer(unsigned(rd));
 			
 			if address /= 0 then

@@ -1,69 +1,106 @@
+-- Arquivo atualizado: ControlUnit.vhd
+-- Correção de sintaxe e estrutura do case
+
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
+use IEEE.NUMERIC_STD.ALL;
 
-entity UnidadeControle is
+entity ControlUnit is
     Port (
-        opcode : in STD_LOGIC_VECTOR(6 downto 0);        -- Campo opcode da instrução
-        funct3 : in STD_LOGIC_VECTOR(2 downto 0);        -- Campo funct3 da instrução
-        funct7 : in STD_LOGIC_VECTOR(6 downto 0);        -- Campo funct7 da instrução
-        alu_control : out STD_LOGIC_VECTOR(3 downto 0);  -- Controle da ULA
-        reg_write_enable : out STD_LOGIC;                -- Sinal de escrita no banco de registradores
-        memory_write_enable : out STD_LOGIC;             -- Sinal de escrita na memória
-        branch_taken : out STD_LOGIC;                    -- Sinal de desvio (branch)
-        alu_src : out STD_LOGIC                          -- Sinal de seleção para o MUX
+        opcode          : in STD_LOGIC_VECTOR(6 downto 0);
+        wren            : out STD_LOGIC; 
+        mem_write       : out STD_LOGIC; 
+        alu_src         : out STD_LOGIC; 
+        mem_to_reg      : out STD_LOGIC; 
+        branch          : out STD_LOGIC;
+        AluOP     : out STD_LOGIC_VECTOR(1 downto 0)
     );
-end UnidadeControle;
+end ControlUnit;
 
-architecture Behavioral of UnidadeControle is
+architecture Behavioral of ControlUnit is
+
+    -- Constants for different opcodes
+    constant opcode_JAL      : std_logic_vector(6 downto 0) := "1101111";
+    constant opcode_tipo_I   : std_logic_vector(6 downto 0) := "0010011";
+    constant opcode_tipo_IL  : std_logic_vector(6 downto 0) := "0000011";
+    constant opcode_tipo_R   : std_logic_vector(6 downto 0) := "0110011";
+    constant opcode_tipo_B   : std_logic_vector(6 downto 0) := "1100011";
+    constant opcode_tipo_ST  : std_logic_vector(6 downto 0) := "0100011";
+    constant opcode_eCALL    : std_logic_vector(6 downto 0) := "1110011";
+    constant opcode_AUIPC    : std_logic_vector(6 downto 0) := "0010111";
+    constant opcode_tipo_LUI : std_logic_vector(6 downto 0) := "0110111";
+    constant opcode_JALR     : std_logic_vector(6 downto 0) := "1100111";
+
+    --signal instrucao_atual : opcode(6 downto 0);
+
 begin
-    process(opcode, funct3, funct7)
+    process(opcode)
     begin
-        -- Valores padrão para os sinais de controle
-        alu_control <= "0000";  -- Operação padrão da ULA (soma)
-        reg_write_enable <= '0';
-        memory_write_enable <= '0';
-        branch_taken <= '0';
-        alu_src <= '0';
-
-        -- Decodificação do opcode
         case opcode is
-            when "0110011" =>  -- Tipo R (operações com registradores)
-                case funct3 is
-                    when "000" =>  -- ADD
-                        if funct7 = "0000000" then
-                            alu_control <= "0010";  -- Soma
-                        elsif funct7 = "0100000" then
-                            alu_control <= "0110";  -- Subtração
-                        end if;
-                    when "111" =>  -- AND
-                        alu_control <= "0000";  -- Operação AND
-                    when others => null;
-                end case;
-                reg_write_enable <= '1';  -- Habilita escrita no banco de registradores
-                alu_src <= '0';  -- Usar valor do registrador rs2 como entrada B da ULA
+            when opcode_tipo_R =>  -- Tipo R (ADD, SUB, AND, OR, XOR, SLL, SRL, SRA)
+                wren <= '1'; 
+                mem_write <= '0'; 
+                alu_src <= '0'; 
+                mem_to_reg <= '0'; 
+                branch <= '0';
+                AluOP <= "10";
+                
+            when opcode_tipo_I => -- Tipo I (ADDI, ANDI, ORI, XORI, SLLI, SRLI, SRAI)
+                wren <= '1'; 
+                mem_write <= '0'; 
+                alu_src <= '1'; 
+                mem_to_reg <= '0'; 
+                branch <= '0';
+                AluOP <= "10";
 
-            when "0010011" =>  -- Tipo I (operações com imediato)
-                case funct3 is
-                    when "000" =>  -- ADDI
-                        alu_control <= "0010";  -- Soma
-                    when others => null;
-                end case;
-                reg_write_enable <= '1';  -- Habilita escrita no banco de registradores
-                alu_src <= '1';  -- Usar imediato como entrada B da ULA
+            when "0000011" => -- LW
+                wren <= '0'; 
+                mem_write <= '0'; 
+                alu_src <= '1'; 
+                mem_to_reg <= '1'; 
+                branch <= '0'; 
+                AluOP <= "00";
 
-            when "0100011" =>  -- Tipo S (store)
-                memory_write_enable <= '1';  -- Habilita escrita na memória
-                alu_src <= '1';  -- Usar imediato como entrada B da ULA
+            when "0100011" => -- SW
+                wren <= '0'; 
+                mem_write <= '1'; 
+                alu_src <= '1'; 
+                mem_to_reg <= '0'; 
+                branch <= '0'; 
+                AluOP <= "00";
 
-            when "1100011" =>  -- Tipo B (branch)
-                case funct3 is
-                    when "000" =>  -- BEQ
-                        branch_taken <= '1';  -- Habilita desvio
-                    when others => null;
-                end case;
-                alu_src <= '0';  -- Usar valor do registrador rs2 como entrada B da ULA
+            when "1100011" => -- BEQ, BNE, BLT, BGE, BLTU, BGEU
+                wren <= '0'; 
+                mem_write <= '0'; 
+                alu_src <= '0'; 
+                mem_to_reg <= '0'; 
+                branch <= '1';
+                AluOP <= "01";
 
-            when others => null;
+            when "1101111" => -- JAL
+                wren <= '1'; 
+                mem_write <= '0'; 
+                alu_src <= '0'; 
+                mem_to_reg <= '0'; 
+                branch <= '1'; 
+                AluOP <= "00";
+
+            when "1100111" => -- JALR
+                wren <= '1'; 
+                mem_write <= '0'; 
+                alu_src <= '1'; 
+                mem_to_reg <= '0'; 
+                branch <= '1'; 
+                AluOP <= "00";
+
+            when others =>
+                wren <= '0'; 
+                mem_write <= '0'; 
+                alu_src <= '0'; 
+                mem_to_reg <= '0'; 
+                branch <= '0'; 
+                AluOP <= "00";
+
         end case;
     end process;
 end Behavioral;

@@ -1,12 +1,16 @@
+-- Arquivo atualizado: ALU_Control.vhd
+-- Correção de sintaxe para suporte correto às instruções
+
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
+use IEEE.NUMERIC_STD.ALL;
 
 entity ALU_Control is
     Port (
-        ALUOp       : in STD_LOGIC_VECTOR(1 downto 0);  -- Sinal da Unidade de Controle
-        funct3      : in STD_LOGIC_VECTOR(2 downto 0);  -- Campo funct3 da instrução
-        funct7      : in STD_LOGIC_VECTOR(6 downto 0);  -- Campo funct7 da instrução
-        alu_control : out STD_LOGIC_VECTOR(3 downto 0) -- Sinal de controle da ULA
+        AluOP       : in STD_LOGIC_VECTOR(1 downto 0);
+        funct3      : in STD_LOGIC_VECTOR(2 downto 0);
+        funct7      : in STD_LOGIC_VECTOR(6 downto 0);
+        alu_control : out STD_LOGIC_VECTOR(3 downto 0)
     );
 end ALU_Control;
 
@@ -15,45 +19,46 @@ begin
     process(ALUOp, funct3, funct7)
     begin
         case ALUOp is
-            when "00" =>  -- Instruções do tipo I (ADDI, LW, etc.)
+            when "00" => 
+                alu_control <= "0000"; -- Load/Store (LW, SW)
+            when "01" => 
                 case funct3 is
-                    when "000" => alu_control <= "0000";  -- ADD (para ADDI)
-                    when others => alu_control <= "0000";  -- Operação padrão
+                    when "000" => alu_control <= "1000"; -- BEQ
+                    when "001" => alu_control <= "1001"; -- BNE
+                    when "100" => alu_control <= "1010"; -- BLT
+                    when "101" => alu_control <= "1011"; -- BGE
+                    when "110" => alu_control <= "1100"; -- BLTU
+                    when "111" => alu_control <= "1101"; -- BGEU
+                    when others => alu_control <= "0000";
                 end case;
-
-            when "01" =>  -- Instruções de desvio (BEQ, BNE, etc.)
-                alu_control <= "0001";  -- SUB (para comparar rs1 e rs2)
-
-            when "10" =>  -- Instruções do tipo R (ADD, SUB, AND, etc.)
+            when "10" => 
                 case funct3 is
-                    when "000" =>  -- ADD ou SUB
-                        if funct7 = "0000000" then
-                            alu_control <= "0000";  -- ADD
-                        elsif funct7 = "0100000" then
-                            alu_control <= "0001";  -- SUB
+                    when "000" => 
+                        if funct7 = "0000000" then 
+                            alu_control <= "0000"; -- ADD
+                        elsif funct7 = "0100000" then 
+                            alu_control <= "0001"; -- SUB
+                        else 
+                            alu_control <= "0000";
                         end if;
-                    when "001" =>  -- SLL (Shift Left Logical)
-                        alu_control <= "0101";  -- SLL
-                    when "010" =>  -- SLT (Set Less Than)
-                        alu_control <= "1000";  -- SLT
-                    when "011" =>  -- SLTU (Set Less Than Unsigned)
-                        alu_control <= "1001";  -- SLTU
-                    when "100" =>  -- XOR
-                        alu_control <= "0100";  -- XOR
-                    when "101" =>  -- SRL (Shift Right Logical) ou SRA (Shift Right Arithmetic)
-                        if funct7 = "0000000" then
-                            alu_control <= "0110";  -- SRL
-                        elsif funct7 = "0100000" then
-                            alu_control <= "0111";  -- SRA
+                    when "111" => alu_control <= "0010"; -- AND
+                    when "110" => alu_control <= "0011"; -- OR
+                    when "100" => alu_control <= "0100"; -- XOR
+                    when "001" => alu_control <= "0101"; -- SLL
+                    when "101" => 
+                        if funct7 = "0000000" then 
+                            alu_control <= "0110"; -- SRL
+                        elsif funct7 = "0100000" then 
+                            alu_control <= "0111"; -- SRA
+                        else 
+                            alu_control <= "0000";
                         end if;
-                    when "110" =>  -- OR
-                        alu_control <= "0011";  -- OR
-                    when "111" =>  -- AND
-                        alu_control <= "0010";  -- AND
-                    when others => alu_control <= "0000";  -- Operação padrão
+                    when "010" => alu_control <= "1000"; -- SLT
+                    when "011" => alu_control <= "1001"; -- SLTU
+                    when others => alu_control <= "0000";
                 end case;
-
-            when others => alu_control <= "0000";  -- Operação padrão
+            when others => 
+                alu_control <= "0000";
         end case;
     end process;
 end Behavioral;
