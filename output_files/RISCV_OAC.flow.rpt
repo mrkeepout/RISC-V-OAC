@@ -1,5 +1,5 @@
 Flow report for RISCV_OAC
-Mon Feb 24 00:10:34 2025
+Mon Feb 24 01:58:39 2025
 Quartus II 64-Bit Version 13.1.0 Build 162 10/23/2013 SJ Web Edition
 
 
@@ -40,7 +40,7 @@ applicable agreement for further details.
 +---------------------------------------------------------------------------------+
 ; Flow Summary                                                                    ;
 +------------------------------------+--------------------------------------------+
-; Flow Status                        ; Successful - Mon Feb 24 00:10:34 2025      ;
+; Flow Status                        ; Successful - Mon Feb 24 01:58:39 2025      ;
 ; Quartus II 64-Bit Version          ; 13.1.0 Build 162 10/23/2013 SJ Web Edition ;
 ; Revision Name                      ; RISCV_OAC                                  ;
 ; Top-level Entity Name              ; RISC_V_Uniciclo                            ;
@@ -68,7 +68,7 @@ applicable agreement for further details.
 +-------------------+---------------------+
 ; Option            ; Setting             ;
 +-------------------+---------------------+
-; Start date & time ; 02/24/2025 00:10:12 ;
+; Start date & time ; 02/24/2025 01:58:16 ;
 ; Main task         ; Compilation         ;
 ; Revision Name     ; RISCV_OAC           ;
 +-------------------+---------------------+
@@ -79,7 +79,7 @@ applicable agreement for further details.
 +-------------------------------------+--------------------------------+---------------+-----------------+----------------+
 ; Assignment Name                     ; Value                          ; Default Value ; Entity Name     ; Section Id     ;
 +-------------------------------------+--------------------------------+---------------+-----------------+----------------+
-; COMPILER_SIGNATURE_ID               ; 11416610623700.174036661223400 ; --            ; --              ; --             ;
+; COMPILER_SIGNATURE_ID               ; 11416610623700.174037309625192 ; --            ; --              ; --             ;
 ; EDA_OUTPUT_DATA_FORMAT              ; Vhdl                           ; --            ; --              ; eda_simulation ;
 ; EDA_SIMULATION_TOOL                 ; ModelSim (VHDL)                ; <None>        ; --              ; --             ;
 ; PARTITION_COLOR                     ; 16764057                       ; --            ; RISC_V_Uniciclo ; Top            ;
@@ -97,12 +97,12 @@ applicable agreement for further details.
 +---------------------------+--------------+-------------------------+---------------------+------------------------------------+
 ; Module Name               ; Elapsed Time ; Average Processors Used ; Peak Virtual Memory ; Total CPU Time (on all processors) ;
 +---------------------------+--------------+-------------------------+---------------------+------------------------------------+
-; Analysis & Synthesis      ; 00:00:09     ; 1.0                     ; 4931 MB             ; 00:00:08                           ;
-; Fitter                    ; 00:00:06     ; 1.0                     ; 5051 MB             ; 00:00:06                           ;
+; Analysis & Synthesis      ; 00:00:07     ; 1.0                     ; 4931 MB             ; 00:00:08                           ;
+; Fitter                    ; 00:00:08     ; 1.0                     ; 5069 MB             ; 00:00:06                           ;
 ; Assembler                 ; 00:00:01     ; 1.0                     ; 4629 MB             ; 00:00:01                           ;
-; TimeQuest Timing Analyzer ; 00:00:02     ; 1.0                     ; 4639 MB             ; 00:00:02                           ;
-; EDA Netlist Writer        ; 00:00:01     ; 1.0                     ; 4596 MB             ; 00:00:00                           ;
-; Total                     ; 00:00:19     ; --                      ; --                  ; 00:00:17                           ;
+; TimeQuest Timing Analyzer ; 00:00:02     ; 1.0                     ; 4638 MB             ; 00:00:02                           ;
+; EDA Netlist Writer        ; 00:00:00     ; 1.0                     ; 4596 MB             ; 00:00:00                           ;
+; Total                     ; 00:00:18     ; --                      ; --                  ; 00:00:17                           ;
 +---------------------------+--------------+-------------------------+---------------------+------------------------------------+
 
 

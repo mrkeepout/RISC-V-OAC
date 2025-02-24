@@ -1,5 +1,5 @@
 Analysis & Synthesis report for RISCV_OAC
-Mon Feb 24 00:10:20 2025
+Mon Feb 24 01:58:24 2025
 Quartus II 64-Bit Version 13.1.0 Build 162 10/23/2013 SJ Web Edition
 
 
@@ -14,16 +14,15 @@ Quartus II 64-Bit Version 13.1.0 Build 162 10/23/2013 SJ Web Edition
   6. Analysis & Synthesis Resource Usage Summary
   7. Analysis & Synthesis Resource Utilization by Entity
   8. Registers Removed During Synthesis
-  9. Removed Registers Triggering Further Register Optimizations
- 10. General Register Statistics
+  9. General Register Statistics
+ 10. Parameter Settings for User Entity Instance: genImm32:dp_imm_gen
  11. Parameter Settings for User Entity Instance: XREGS:dp_regs
- 12. Parameter Settings for User Entity Instance: genImm32:dp_imm_gen
- 13. Parameter Settings for User Entity Instance: ULA:dp_alu
- 14. Port Connectivity Checks: "ram_rv:dp_data_mem"
- 15. Port Connectivity Checks: "ULA:dp_alu"
- 16. Port Connectivity Checks: "ControlUnit:dp_control"
- 17. Elapsed Time Per Partition
- 18. Analysis & Synthesis Messages
+ 12. Parameter Settings for User Entity Instance: ULA:dp_alu
+ 13. Port Connectivity Checks: "ram_rv:dp_data_mem"
+ 14. Port Connectivity Checks: "ULA:dp_alu"
+ 15. Port Connectivity Checks: "ControlUnit:dp_control"
+ 16. Elapsed Time Per Partition
+ 17. Analysis & Synthesis Messages
 
 
 
@@ -49,7 +48,7 @@ applicable agreement for further details.
 +---------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                    ;
 +------------------------------------+--------------------------------------------+
-; Analysis & Synthesis Status        ; Successful - Mon Feb 24 00:10:20 2025      ;
+; Analysis & Synthesis Status        ; Successful - Mon Feb 24 01:58:24 2025      ;
 ; Quartus II 64-Bit Version          ; 13.1.0 Build 162 10/23/2013 SJ Web Edition ;
 ; Revision Name                      ; RISCV_OAC                                  ;
 ; Top-level Entity Name              ; RISC_V_Uniciclo                            ;
@@ -5220,30 +5219,6 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 * Table truncated at 5000 items. To change the number of removed registers reported, set the "Number of Removed Registers Reported" option under Assignments->Settings->Analysis and Synthesis Settings->More Settings
 
 
-+-----------------------------------------------------------------------------------------------------------------------------------+
-; Removed Registers Triggering Further Register Optimizations                                                                       ;
-+--------------------------------+--------------------------------+-----------------------------------------------------------------+
-; Register name                  ; Reason for Removal             ; Registers Removed due to This Register                          ;
-+--------------------------------+--------------------------------+-----------------------------------------------------------------+
-; XREGS:dp_regs|registers[0][31] ; Stuck at GND                   ; XREGS:dp_regs|registers[0][30], XREGS:dp_regs|registers[0][29], ;
-;                                ; due to stuck port clock_enable ; XREGS:dp_regs|registers[0][28], XREGS:dp_regs|registers[0][27], ;
-;                                ;                                ; XREGS:dp_regs|registers[0][26], XREGS:dp_regs|registers[0][25], ;
-;                                ;                                ; XREGS:dp_regs|registers[0][24], XREGS:dp_regs|registers[0][23], ;
-;                                ;                                ; XREGS:dp_regs|registers[0][22], XREGS:dp_regs|registers[0][21], ;
-;                                ;                                ; XREGS:dp_regs|registers[0][20], XREGS:dp_regs|registers[0][19], ;
-;                                ;                                ; XREGS:dp_regs|registers[0][18], XREGS:dp_regs|registers[0][17], ;
-;                                ;                                ; XREGS:dp_regs|registers[0][16], XREGS:dp_regs|registers[0][15], ;
-;                                ;                                ; XREGS:dp_regs|registers[0][14], XREGS:dp_regs|registers[0][13], ;
-;                                ;                                ; XREGS:dp_regs|registers[0][12], XREGS:dp_regs|registers[0][11], ;
-;                                ;                                ; XREGS:dp_regs|registers[0][10], XREGS:dp_regs|registers[0][9],  ;
-;                                ;                                ; XREGS:dp_regs|registers[0][8], XREGS:dp_regs|registers[0][7],   ;
-;                                ;                                ; XREGS:dp_regs|registers[0][6], XREGS:dp_regs|registers[0][5],   ;
-;                                ;                                ; XREGS:dp_regs|registers[0][4], XREGS:dp_regs|registers[0][3],   ;
-;                                ;                                ; XREGS:dp_regs|registers[0][2], XREGS:dp_regs|registers[0][1],   ;
-;                                ;                                ; XREGS:dp_regs|registers[0][0]                                   ;
-+--------------------------------+--------------------------------+-----------------------------------------------------------------+
-
-
 +------------------------------------------------------+
 ; General Register Statistics                          ;
 +----------------------------------------------+-------+
@@ -5259,6 +5234,16 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 +----------------------------------------------+-------+
 
 
++------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: genImm32:dp_imm_gen ;
++----------------+-------+-----------------------------------------+
+; Parameter Name ; Value ; Type                                    ;
++----------------+-------+-----------------------------------------+
+; SIZEWORD       ; 32    ; Signed Integer                          ;
++----------------+-------+-----------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
 +------------------------------------------------------------+
 ; Parameter Settings for User Entity Instance: XREGS:dp_regs ;
 +----------------+-------+-----------------------------------+
@@ -5267,16 +5252,6 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 ; WSIZE          ; 32    ; Signed Integer                    ;
 ; REGS           ; 32    ; Signed Integer                    ;
 +----------------+-------+-----------------------------------+
-Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
-
-
-+------------------------------------------------------------------+
-; Parameter Settings for User Entity Instance: genImm32:dp_imm_gen ;
-+----------------+-------+-----------------------------------------+
-; Parameter Name ; Value ; Type                                    ;
-+----------------+-------+-----------------------------------------+
-; SIZEWORD       ; 32    ; Signed Integer                          ;
-+----------------+-------+-----------------------------------------+
 Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
 
 
@@ -5300,22 +5275,22 @@ Note: In order to hide this table in the UI and the text report file, please set
 +---------+-------+----------+-------------------+
 
 
++--------------------------------------------------------------------------------------------------------------------------+
+; Port Connectivity Checks: "ULA:dp_alu"                                                                                   ;
++----------------+--------+----------+-------------------------------------------------------------------------------------+
+; Port           ; Type   ; Severity ; Details                                                                             ;
++----------------+--------+----------+-------------------------------------------------------------------------------------+
+; result[31..13] ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed. ;
++----------------+--------+----------+-------------------------------------------------------------------------------------+
+
+
 +-------------------------------------------------------------------------------------------------------------------------------------+
-; Port Connectivity Checks: "ULA:dp_alu"                                                                                              ;
+; Port Connectivity Checks: "ControlUnit:dp_control"                                                                                  ;
 +------+--------+----------+----------------------------------------------------------------------------------------------------------+
 ; Port ; Type   ; Severity ; Details                                                                                                  ;
 +------+--------+----------+----------------------------------------------------------------------------------------------------------+
 ; zero ; Output ; Warning  ; Declared by entity but not connected by instance. Logic that only feeds a dangling port will be removed. ;
 +------+--------+----------+----------------------------------------------------------------------------------------------------------+
-
-
-+------------------------------------------------------------------------------------------------------------------+
-; Port Connectivity Checks: "ControlUnit:dp_control"                                                               ;
-+--------+--------+----------+-------------------------------------------------------------------------------------+
-; Port   ; Type   ; Severity ; Details                                                                             ;
-+--------+--------+----------+-------------------------------------------------------------------------------------+
-; branch ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed. ;
-+--------+--------+----------+-------------------------------------------------------------------------------------+
 
 
 +-------------------------------+
@@ -5333,7 +5308,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 Info: *******************************************************************
 Info: Running Quartus II 64-Bit Analysis & Synthesis
     Info: Version 13.1.0 Build 162 10/23/2013 SJ Web Edition
-    Info: Processing started: Mon Feb 24 00:10:11 2025
+    Info: Processing started: Mon Feb 24 01:58:16 2025
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off RISCV_OAC -c RISCV_OAC
 Warning (20028): Parallel compilation is not licensed and has been disabled
 Info (12021): Found 2 design units, including 1 entities, in source file xregs.vhd
@@ -5370,15 +5345,14 @@ Info (12021): Found 2 design units, including 1 entities, in source file mux_2to
     Info (12022): Found design unit 1: mux_2to1-Behavioral
     Info (12023): Found entity 1: mux_2to1
 Info (12127): Elaborating entity "RISC_V_Uniciclo" for the top level hierarchy
-Warning (10036): Verilog HDL or VHDL warning at RISC_V_Uniciclo.vhd(31): object "branch" assigned a value but never read
 Info (12128): Elaborating entity "PC" for hierarchy "PC:dp_pc_reg"
 Info (12128): Elaborating entity "rom_rv" for hierarchy "rom_rv:dp_instr_mem"
 Warning (10543): VHDL Variable Declaration warning at rom_rv.vhd(25): used default initial value for variable "open_status" because variable was never assigned a value or an initial value expression. Use of default initial value may introduce unintended design optimizations.
 Warning (10492): VHDL Process Statement warning at rom_rv.vhd(53): signal "mem" is read inside the Process Statement but isn't in the Process Statement's sensitivity list
 Info (12128): Elaborating entity "ControlUnit" for hierarchy "ControlUnit:dp_control"
-Info (12128): Elaborating entity "XREGS" for hierarchy "XREGS:dp_regs"
 Info (12128): Elaborating entity "genImm32" for hierarchy "genImm32:dp_imm_gen"
 Info (12128): Elaborating entity "ALU_Control" for hierarchy "ALU_Control:dp_alu_control"
+Info (12128): Elaborating entity "XREGS" for hierarchy "XREGS:dp_regs"
 Info (12128): Elaborating entity "ULA" for hierarchy "ULA:dp_alu"
 Warning (10492): VHDL Process Statement warning at ulaRV.vhd(78): signal "result_internal" is read inside the Process Statement but isn't in the Process Statement's sensitivity list
 Warning (10492): VHDL Process Statement warning at ulaRV.vhd(81): signal "result_internal" is read inside the Process Statement but isn't in the Process Statement's sensitivity list
@@ -5428,10 +5402,10 @@ Info (21057): Implemented 97 device resources after synthesis - the final resour
     Info (21058): Implemented 2 input pins
     Info (21059): Implemented 65 output pins
     Info (21061): Implemented 30 logic cells
-Info: Quartus II 64-Bit Analysis & Synthesis was successful. 0 errors, 43 warnings
+Info: Quartus II 64-Bit Analysis & Synthesis was successful. 0 errors, 42 warnings
     Info: Peak virtual memory: 4931 megabytes
-    Info: Processing ended: Mon Feb 24 00:10:20 2025
-    Info: Elapsed time: 00:00:09
-    Info: Total CPU time (on all processors): 00:00:09
+    Info: Processing ended: Mon Feb 24 01:58:24 2025
+    Info: Elapsed time: 00:00:08
+    Info: Total CPU time (on all processors): 00:00:08
 
 

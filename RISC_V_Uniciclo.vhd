@@ -28,7 +28,7 @@ architecture Behavioral of RISC_V_Uniciclo is
     signal imm_value : STD_LOGIC_VECTOR(31 downto 0);
 	 
 	 -- Sinais de controle
-    signal wren, mem_write, alu_src, mem_to_reg, branch : STD_LOGIC;
+    signal wren, mem_write, alu_src, mem_to_reg, branch, jump: STD_LOGIC;
 	 
 	 -- Sinais Controle ULA
     signal alu_ctrl : STD_LOGIC_VECTOR(3 downto 0);
@@ -43,6 +43,7 @@ architecture Behavioral of RISC_V_Uniciclo is
 	 
     -- Sinais operacao ULA
 	signal AluOP : STD_LOGIC_VECTOR(1 downto 0);
+    signal alu_zero : STD_LOGIC;
 	 
     -- Componentes
     component PC is
@@ -69,6 +70,7 @@ architecture Behavioral of RISC_V_Uniciclo is
             alu_src         : out STD_LOGIC; 
             mem_to_reg      : out STD_LOGIC; 
             branch          : out STD_LOGIC;
+            jump            : out STD_LOGIC;
             AluOP           : out STD_LOGIC_VECTOR(1 downto 0)
         );
     end component;
@@ -95,9 +97,10 @@ architecture Behavioral of RISC_V_Uniciclo is
     
     component ULA is
         Port (
-            A, B : in STD_LOGIC_VECTOR(31 downto 0);
-            control : in STD_LOGIC_VECTOR(3 downto 0);
-            result : out STD_LOGIC_VECTOR(31 downto 0)
+            A, B        : in STD_LOGIC_VECTOR(31 downto 0);
+            control     : in STD_LOGIC_VECTOR(3 downto 0);
+            result      : out STD_LOGIC_VECTOR(31 downto 0);
+            zero        : out STD_LOGIC
         );
     end component;
     
@@ -145,12 +148,28 @@ begin
             mem_write, 
             alu_src, 
             mem_to_reg, 
-            branch, 
+            branch,
+            jump, 
             AluOP
         );
 
+        		
+    dp_imm_gen : genImm32 
+        port map(
+            instruction, 
+            imm_value
+        );
+      
+    dp_alu_control : ALU_Control 
+      port map(
+            AluOP,
+            instruction(14 downto 12), --funct3
+            instruction(31 downto 25), --funct7
+            alu_control => alu_ctrl
+      );
+
     -- MUX para selecionar o dado de sai­da da memoria ou da ALU (Precisa aprimorar)
-    write_data <= data_from_memory when mem_to_reg = '1' else alu_result;
+    write_data <= data_from_memory when mem_to_reg = '1' else alu_operand2;
         
     dp_regs : XREGS
         port map(
@@ -165,21 +184,6 @@ begin
             ro2
         );
 		
-		
-    dp_imm_gen : genImm32 
-        port map(
-            instruction, 
-            imm_value
-        );
-		  
-	 dp_alu_control : ALU_Control 
-		  port map(
-				AluOP,
-				instruction(14 downto 12), --funct3
-				instruction(31 downto 25), --funct7
-				alu_control => alu_ctrl
-		  );
-    
     -- Definir o operando B da ULA com um sinal intermediario
     alu_operand2 <= ro2 when alu_src = '0' else imm_value;
     --alu_control <= control;
@@ -189,7 +193,8 @@ begin
             ro1,
             alu_operand2,
             alu_ctrl,
-            alu_result
+            alu_result,
+            alu_zero
         );
 
     
@@ -206,7 +211,20 @@ begin
         );
     
     -- Logica do PC
-    next_pc <= std_logic_vector(unsigned(pc_value) + 4);
+    process(pc_value, branch, jump, alu_zero, imm_value)
+    begin
+        if branch = '1' and alu_zero = '1' then
+            -- Instrução BEQ: salta se a condição for verdadeira
+            next_pc <= std_logic_vector(unsigned(pc_value) + unsigned(imm_value));
+        elsif jump = '1' then
+            -- Instrução JAL: salto incondicional
+            next_pc <= std_logic_vector(unsigned(pc_value) + unsigned(imm_value));
+        else
+            -- Instrução normal: incrementa o PC em 4
+            next_pc <= std_logic_vector(unsigned(pc_value) + 4);
+        end if;
+    end process;
+
     pc_out <= pc_value;
     
     -- Conexao dos sinais de memoria

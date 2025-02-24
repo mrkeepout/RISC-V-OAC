@@ -13,6 +13,8 @@ entity ControlUnit is
         alu_src         : out STD_LOGIC; 
         mem_to_reg      : out STD_LOGIC; 
         branch          : out STD_LOGIC;
+        jump            : out STD_LOGIC;
+		  zero 				: out STD_LOGIC;
         AluOP     : out STD_LOGIC_VECTOR(1 downto 0)
     );
 end ControlUnit;
@@ -44,6 +46,8 @@ begin
                 mem_to_reg <= '0'; 
                 branch <= '0';
                 AluOP <= "10";
+                jump <= '0';
+                zero <= '0';
                 
             when opcode_tipo_I => -- Tipo I (ADDI, ANDI, ORI, XORI, SLLI, SRLI, SRAI)
                 wren <= '1'; 
@@ -52,6 +56,8 @@ begin
                 mem_to_reg <= '0'; 
                 branch <= '0';
                 AluOP <= "10";
+                jump <= '0';
+                zero <= '0';
 
             when "0000011" => -- LW
                 wren <= '0'; 
@@ -60,6 +66,8 @@ begin
                 mem_to_reg <= '1'; 
                 branch <= '0'; 
                 AluOP <= "00";
+                jump <= '0';
+                zero <= '0';
 
             when "0100011" => -- SW
                 wren <= '0'; 
@@ -68,6 +76,8 @@ begin
                 mem_to_reg <= '0'; 
                 branch <= '0'; 
                 AluOP <= "00";
+                jump <= '0';
+                zero <= '0';
 
             when "1100011" => -- BEQ, BNE, BLT, BGE, BLTU, BGEU
                 wren <= '0'; 
@@ -76,6 +86,8 @@ begin
                 mem_to_reg <= '0'; 
                 branch <= '1';
                 AluOP <= "01";
+                jump <= '0';
+                zero <= '1';
 
             when "1101111" => -- JAL
                 wren <= '1'; 
@@ -84,6 +96,8 @@ begin
                 mem_to_reg <= '0'; 
                 branch <= '1'; 
                 AluOP <= "00";
+                jump <= '1';
+                zero <= '0';
 
             when "1100111" => -- JALR
                 wren <= '1'; 
@@ -92,6 +106,8 @@ begin
                 mem_to_reg <= '0'; 
                 branch <= '1'; 
                 AluOP <= "00";
+                jump <= '1';
+                zero <= '0';
 
             when others =>
                 wren <= '0'; 
@@ -100,6 +116,8 @@ begin
                 mem_to_reg <= '0'; 
                 branch <= '0'; 
                 AluOP <= "00";
+                jump <= '0';
+                zero <= '0';
 
         end case;
     end process;
