@@ -6,8 +6,6 @@ entity RISC_V_Uniciclo is
     Port (
         clk 						: in STD_LOGIC;          					-- Sinal de clock
         reset 						: in STD_LOGIC;         					-- Sinal de reset
-        instruction 				: in STD_LOGIC_VECTOR(31 downto 0);  	    -- Instrucao da ROM
-        data_from_memory 		    : in STD_LOGIC_VECTOR(31 downto 0);  	    -- Dado da memoria RAM
         pc_out 					    : out STD_LOGIC_VECTOR(31 downto 0);        -- Endereco da proxima instrucao
         data_to_memory 			    : out STD_LOGIC_VECTOR(31 downto 0);  	    -- Dado para a memoria RAM
         memory_write_enable 	    : out STD_LOGIC              				-- Sinal de escrita na memoria
@@ -21,7 +19,7 @@ architecture Behavioral of RISC_V_Uniciclo is
 	 
 	 -- Sinais ROM
     --signal instruction_rv : STD_LOGIC_VECTOR(31 downto 0);
-    signal dataout : STD_LOGIC_VECTOR(31 downto 0);
+    signal instruction : STD_LOGIC_VECTOR(31 downto 0);
 	 
 	 -- Sinais ULA
     signal alu_result, mem_data, alu_operand2 : STD_LOGIC_VECTOR(31 downto 0);
@@ -37,6 +35,7 @@ architecture Behavioral of RISC_V_Uniciclo is
 	 
 	 -- Sinais RAM
     signal byte_en, sgn_en : STD_LOGIC;  -- Sinais adicionais para a RAM
+    signal data_from_memory : STD_LOGIC_VECTOR(31 downto 0);
 	 
 	 -- Sinais registradores
     signal ro1, ro2 : STD_LOGIC_VECTOR(31 downto 0);
@@ -49,16 +48,16 @@ architecture Behavioral of RISC_V_Uniciclo is
     component PC is
         Port (
             clk 		: in STD_LOGIC;
-            reset 	: in STD_LOGIC;
+            reset 	    : in STD_LOGIC;
             next_pc 	: in STD_LOGIC_VECTOR(31 downto 0);
-            pc_value : out STD_LOGIC_VECTOR(31 downto 0)
+            pc_value    : out STD_LOGIC_VECTOR(31 downto 0)
         );
     end component;
     
     component rom_rv is
         Port (
             address : in STD_LOGIC_VECTOR(10 downto 0);
-            dataout : out STD_LOGIC_VECTOR(31 downto 0)
+            instruction : out STD_LOGIC_VECTOR(31 downto 0)
         );
     end component;
 
@@ -136,7 +135,7 @@ begin
     dp_instr_mem : rom_rv 
         port map(
             pc_value(10 downto 0),       -- Conecta os 11 bits menos significativos do PC
-            dataout    -- A instrucao lida eh armazenada em instruction_rv
+            instruction    -- A instrucao lida eh armazenada em instruction_rv
         );
 
     dp_control : ControlUnit 
@@ -203,7 +202,7 @@ begin
             '0',                        -- sgn_en (0 para acesso sem sinal)
             alu_result(12 downto 0),    -- Endereco de 13 bits
             ro2,                        -- Dado de entrada (datain)
-            mem_data                    -- Dado de sai­da (dataout)
+            data_from_memory            -- Dado de sai­da (dataout)
         );
     
     -- Logica do PC

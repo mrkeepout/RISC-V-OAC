@@ -20,7 +20,7 @@ begin
             -- Reset: inicializa o PC com 0
             current_pc <= (others => '0');
         elsif rising_edge(clk) then
-            -- Atualiza o PC com o próximo valor
+            -- Atualiza o PC com o próximo valor na subida do clock
             current_pc <= next_pc;
         end if;
     end process;

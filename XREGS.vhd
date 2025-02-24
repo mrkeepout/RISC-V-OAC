@@ -28,9 +28,6 @@ architecture Behavioral of XREGS is
 begin
   
   process(clk, reset)
-  
-	 variable address : natural;
-	 
   begin
     if reset = '1' then
       -- Reset: inicializa todos os registradores com 0
@@ -38,12 +35,8 @@ begin
 		
     elsif rising_edge(clk) then
       -- Escrever no registrador quando wren estiver habilitado e rd não for o registrador 0
-      if wren = '1' then
-			address := to_integer(unsigned(rd));
-			
-			if address /= 0 then
-		     registers(address) <= write_data;
-			end if;
+      if wren = '1' and rd /= "00000" then
+			registers(to_integer(unsigned(rd))) <= write_data; 
       end if;
     end if;
   end process;

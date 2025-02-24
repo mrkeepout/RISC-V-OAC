@@ -7,7 +7,7 @@ use ieee.std_logic_textio.all;
 entity rom_rv is
   port (
     address : in  std_logic_vector(10 downto 0);  -- 11 bits de endereco
-    dataout : out std_logic_vector(31 downto 0)   -- 32 bits de saida
+    instruction : out std_logic_vector(31 downto 0)   -- 32 bits de saida
   );
 end entity rom_rv;
 
@@ -50,7 +50,7 @@ begin
   -- Processo de leitura da ROM
   process(address)
   begin
-    dataout <= mem(to_integer(unsigned(address)));  -- Le a palavra no endereco especificado
+    instruction <= mem(to_integer(unsigned(address)));  -- Le a palavra no endereco especificado
   end process;
 
 end architecture rtl;
