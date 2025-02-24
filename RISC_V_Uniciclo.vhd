@@ -137,8 +137,8 @@ begin
 		
     dp_instr_mem : rom_rv 
         port map(
-            pc_value(10 downto 0),       -- Conecta os 11 bits menos significativos do PC
-            instruction    -- A instrucao lida eh armazenada em instruction_rv
+            pc_value(12 downto 2),     -- Conecta os 11 bits menos significativos do PC
+            instruction    				-- A instrucao lida eh armazenada em instruction
         );
 
     dp_control : ControlUnit 

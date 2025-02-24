@@ -24,7 +24,7 @@ architecture Behavioral of RISC_V_Uniciclo_TB is
     
 	 
     -- PerÃ­odo do clock
-    constant clk_period : time := 10 ns;
+    constant clk_period : time := 20 ns;
 
 begin
     -- InstanciaÃ§Ã£o do processador

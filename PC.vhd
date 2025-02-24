@@ -27,4 +27,5 @@ begin
 
     -- Saída do PC
     pc_value <= current_pc;
+	 
 end Behavioral;
