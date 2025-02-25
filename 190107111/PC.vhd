@@ -6,7 +6,7 @@ entity PC is
     Port (
         clk     : in STD_LOGIC;  -- Clock
         reset   : in STD_LOGIC;  -- Sinal de reset
-        next_pc : in STD_LOGIC_VECTOR(31 downto 0);  -- Próximo valor do PC
+        next_pc : in STD_LOGIC_VECTOR(31 downto 0);  -- Proximo valor do PC
         pc_value: out STD_LOGIC_VECTOR(31 downto 0)  -- Valor atual do PC
     );
 end PC;
@@ -19,12 +19,12 @@ begin
         if reset = '1' then
             current_pc <= (others => '0');
         elsif rising_edge(clk) then
-            -- Atualiza o PC com o próximo valor na subida do clock
+            -- Atualiza o PC com o proximo valor na subida do clock
             current_pc <= next_pc;
         end if;
     end process;
 
-    -- Saída do PC
+    -- SaÃ­da do PC
     pc_value <= current_pc;
 	 
 end Behavioral;
