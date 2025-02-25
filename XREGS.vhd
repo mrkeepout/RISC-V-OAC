@@ -41,18 +41,6 @@ begin
     end if;
   end process;
 
- -- -- Leitura com bypass de escrita
- -- ro1 <= (others => '0') when rs1 = "00000" else
- --         write_data when (wren = '1' and rd = rs1) else
- --         registers(to_integer(unsigned(rs1)));
---
- -- ro2 <= (others => '0') when rs2 = "00000" else
- --         write_data when (wren = '1' and rd = rs2) else
- --         registers(to_integer(unsigned(rs2)));
---
---
-
-
 -- Leitura e atribuição dos valores aos registradores de saída (ro1 e ro2)
 -- Se o registrador for 0, retorna 0; caso contrário, retorna o valor do registrador
 

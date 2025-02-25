@@ -10,6 +10,8 @@ entity ULA is
         A      : in STD_LOGIC_VECTOR(WSIZE-1 downto 0);  -- Entrada A (rs1)
         B      : in STD_LOGIC_VECTOR(WSIZE-1 downto 0);  -- Entrada B (rs2 ou imediato)
         control: in STD_LOGIC_VECTOR(3 downto 0);        -- Sinal de controle da ULA
+        is_aui : in STD_LOGIC;                           -- Sinal para operação AUIPC
+        is_lui : in STD_LOGIC;                           -- Sinal para operação LUI
         result : out STD_LOGIC_VECTOR(WSIZE-1 downto 0); -- Resultado da operação
         zero   : out STD_LOGIC                           -- Sinal "zero" (1 se resultado = 0)
     );
@@ -21,7 +23,14 @@ begin
         variable result_temp : STD_LOGIC_VECTOR(WSIZE-1 downto 0); -- troquei signal por variable
     begin
         case control is
-            when "0000" => result_temp := std_logic_vector(signed(A) + signed(B)); -- ADD
+            when "0000" => 
+                if is_aui = '1' then
+                    result_temp := std_logic_vector(unsigned(A) + unsigned(B(31 downto 12) & "000000000000")); -- AUIPC
+                elsif is_lui = '1' then
+                    result_temp := std_logic_vector(unsigned(B) & "000000000000"); -- LUI
+                else 
+                    result_temp := std_logic_vector(signed(A) + signed(B)); -- ADD
+                end if; 
             when "0001" => result_temp := std_logic_vector(signed(A) - signed(B)); -- SUB
             when "0010" => result_temp := A and B; -- AND
             when "0011" => result_temp := A or B;  -- OR

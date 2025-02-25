@@ -25,7 +25,7 @@ architecture Behavioral of RISC_V_Uniciclo is
     signal imm_value : STD_LOGIC_VECTOR(31 downto 0);
 	 
 	 -- Sinais de controle
-    signal wren, mem_write, alu_src, mem_to_reg, branch, jump: STD_LOGIC;
+    signal wren, mem_write, alu_src, mem_to_reg, branch, jump, is_aui, is_lui : STD_LOGIC;
 	 
 	 -- Sinais Controle ULA
     signal alu_ctrl : STD_LOGIC_VECTOR(3 downto 0);
@@ -46,8 +46,6 @@ architecture Behavioral of RISC_V_Uniciclo is
     signal mem_address : STD_LOGIC_VECTOR(31 downto 0);
     signal mem_access  : STD_LOGIC;  -- Sinal para selecionar acesso a memoria de dados ou instrucoes
 	 
-	 -- Variaveis
-	 signal sel_auipc_lui :  STD_LOGIC;
 	 
     -- Componentes
     component PC is
@@ -75,7 +73,9 @@ architecture Behavioral of RISC_V_Uniciclo is
             mem_to_reg      : out STD_LOGIC; 
             branch          : out STD_LOGIC;
             jump            : out STD_LOGIC;
-            AluOP           : out STD_LOGIC_VECTOR(1 downto 0)
+            AluOP           : out STD_LOGIC_VECTOR(1 downto 0);
+            is_aui          : out STD_LOGIC;
+            is_lui          : out STD_LOGIC
         );
     end component;
     
@@ -99,10 +99,24 @@ architecture Behavioral of RISC_V_Uniciclo is
         );
     end component;
     
+    --dp_ULA : ULA 
+    --port map(
+    --    ro1 => A,
+    --    alu_operand2 => B,
+    --    alu_ctrl,
+    --    is_aui => is_aui,
+    --    is_lui => is_lui,
+    --    result => alu_result,
+    --    zero => alu_zero
+    --);
+
+
     component ULA is
         Port (
             A, B        : in STD_LOGIC_VECTOR(31 downto 0);
             control     : in STD_LOGIC_VECTOR(3 downto 0);
+            is_aui      : in STD_LOGIC;
+            is_lui      : in STD_LOGIC;
             result      : out STD_LOGIC_VECTOR(31 downto 0);
             zero        : out STD_LOGIC
         );
@@ -116,7 +130,7 @@ architecture Behavioral of RISC_V_Uniciclo is
             sgn_en  : in  std_logic;                      -- Acesso com sinal (1) ou sem sinal (0)
             address : in  std_logic_vector(12 downto 0);  -- Endereco de 13 bits
             datain  : in  std_logic_vector(31 downto 0);  -- Dado de entrada (32 bits)
-            dataout : out std_logic_vector(31 downto 0)   -- a (32 bits)
+            dataout : out std_logic_vector(31 downto 0)   
         );
     end component;
 	 
@@ -163,7 +177,9 @@ begin
             mem_to_reg, 
             branch,
             jump, 
-            AluOP
+            AluOP,
+            is_aui,
+            is_lui
         );
 	
     dp_IMM_GEN : genImm32 
@@ -180,22 +196,22 @@ begin
               alu_control => alu_ctrl
         );
 
-    ---- Instanciacao do MUX 
-    --dp_MUX_MEM_ALU : mux_2to1
-    --    port map (
-    --        sel => mem_to_reg,          -- Sinal de selecao
-    --        a   => alu_result,          -- Entrada A (dado da ULA)
-    --        b   => data_from_memory,    -- Entrada B (dado da memoria)
-    --        y   => write_data           -- SaiÂ­da (dado a ser escrito no registrador)
-    --    );
-
-        write_data <= alu_result when mem_to_reg = '0' else data_from_memory;
+    -- MUX define se vai usar o dado da memoria ou o dado da ULA 
+    dp_MUX_MEM_ALU : mux_2to1
+        port map (
+            sel => mem_to_reg,          -- Sinal de selecao
+            a   => alu_result,          -- Entrada A (dado da ULA)
+            b   => data_from_memory,    -- Entrada B (dado da memoria)
+            y   => write_data           -- Sai­da (dado a ser escrito no registrador)
+        );
 
     dp_ULA : ULA 
         port map(
             ro1,
             alu_operand2,
             alu_ctrl,
+            is_aui => is_aui,
+            is_lui => is_lui,
             result => alu_result,
             zero => alu_zero
         );
@@ -224,11 +240,25 @@ begin
             ro2,                        -- Dado de entrada (datain)
             data_from_memory            -- Dado de saiÂ­da (dataout)
         );
+    
+    -- MUX define se a ULA vai usar o registrador 2 ou o imediato
+    dp_MUX_ULA_IMM : mux_2to1
+        port map (
+            sel => alu_src,         -- Sinal de selecao
+            a   => ro2,             -- Entrada A (dado da ULA)
+            b   => imm_value,       -- Entrada B (dado da memoria)
+            y   => alu_operand2     -- Sai­da (dado a ser escrito no registrador)
+        );
 
-	 -- Definir o operando B da ULA com um sinal intermediario
-    alu_operand2 <= ro2 when alu_src = '0' else imm_value;
+    --dp_MUX_ULA_AUIPC : mux_2to1
+    --    port map (
+    --        sel => is_aui,      -- Sinal de selecao
+    --        a   => ro,         -- Entrada A (dado da ULA)
+    --        b   => pc_value,    -- Entrada B (dado da memoria)
+    --        y   => ro1          -- Sai­da (dado a ser escrito no registrador)
+    --    );
 
-    -- Logica do PC
+    -- Logica do PC (falta otimizaçao)
     process(clk, reset ,pc_value, branch, jump, alu_zero, imm_value, instruction)
     begin
         if branch = '1' and alu_zero = '1' then
@@ -244,9 +274,6 @@ begin
             next_pc <= std_logic_vector(unsigned(pc_value) + 4);
         end if;
     end process;
-
-
-    --pc_out <= pc_value;
     
 
     --Logica da instrucao AUIPC
