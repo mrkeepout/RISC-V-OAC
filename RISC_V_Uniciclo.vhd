@@ -180,14 +180,16 @@ begin
               alu_control => alu_ctrl
         );
 
-    -- Instanciacao do MUX 
-    dp_MUX_MEM_ALU : mux_2to1
-        port map (
-            sel => mem_to_reg,          -- Sinal de selecao
-            a   => alu_result,          -- Entrada A (dado da ULA)
-            b   => data_from_memory,    -- Entrada B (dado da memoria)
-            y   => write_data           -- SaiÂ­da (dado a ser escrito no registrador)
-        );
+    ---- Instanciacao do MUX 
+    --dp_MUX_MEM_ALU : mux_2to1
+    --    port map (
+    --        sel => mem_to_reg,          -- Sinal de selecao
+    --        a   => alu_result,          -- Entrada A (dado da ULA)
+    --        b   => data_from_memory,    -- Entrada B (dado da memoria)
+    --        y   => write_data           -- SaiÂ­da (dado a ser escrito no registrador)
+    --    );
+
+        write_data <= alu_result when mem_to_reg = '0' else data_from_memory;
 
     dp_ULA : ULA 
         port map(
@@ -238,7 +240,6 @@ begin
         elsif reset = '1' then
             -- Reset: volta para o endereco 0
             next_pc <= (others => '0');
-            -- Instrucao normal: incrementa o PC em 4
         else 
             next_pc <= std_logic_vector(unsigned(pc_value) + 4);
         end if;

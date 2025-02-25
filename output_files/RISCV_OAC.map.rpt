@@ -1,5 +1,5 @@
 Analysis & Synthesis report for RISCV_OAC
-Tue Feb 25 00:34:29 2025
+Tue Feb 25 08:24:26 2025
 Quartus II 64-Bit Version 13.1.0 Build 162 10/23/2013 SJ Web Edition
 
 
@@ -10,7 +10,17 @@ Quartus II 64-Bit Version 13.1.0 Build 162 10/23/2013 SJ Web Edition
   2. Analysis & Synthesis Summary
   3. Analysis & Synthesis Settings
   4. Parallel Compilation
-  5. Analysis & Synthesis Messages
+  5. Analysis & Synthesis Source Files Read
+  6. Analysis & Synthesis Resource Usage Summary
+  7. Analysis & Synthesis Resource Utilization by Entity
+  8. General Register Statistics
+  9. Parameter Settings for User Entity Instance: genImm32:dp_IMM_GEN
+ 10. Parameter Settings for User Entity Instance: ULA:dp_ULA
+ 11. Parameter Settings for User Entity Instance: XREGS:dp_XREGS
+ 12. Port Connectivity Checks: "ram_rv:dp_RAM"
+ 13. Port Connectivity Checks: "ControlUnit:dp_CONTROL"
+ 14. Elapsed Time Per Partition
+ 15. Analysis & Synthesis Messages
 
 
 
@@ -36,24 +46,24 @@ applicable agreement for further details.
 +---------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                    ;
 +------------------------------------+--------------------------------------------+
-; Analysis & Synthesis Status        ; Failed - Tue Feb 25 00:34:29 2025          ;
+; Analysis & Synthesis Status        ; Successful - Tue Feb 25 08:24:26 2025      ;
 ; Quartus II 64-Bit Version          ; 13.1.0 Build 162 10/23/2013 SJ Web Edition ;
 ; Revision Name                      ; RISCV_OAC                                  ;
 ; Top-level Entity Name              ; RISC_V_Uniciclo                            ;
 ; Family                             ; Cyclone IV GX                              ;
-; Total logic elements               ; N/A until Partition Merge                  ;
-;     Total combinational functions  ; N/A until Partition Merge                  ;
-;     Dedicated logic registers      ; N/A until Partition Merge                  ;
-; Total registers                    ; N/A until Partition Merge                  ;
-; Total pins                         ; N/A until Partition Merge                  ;
-; Total virtual pins                 ; N/A until Partition Merge                  ;
-; Total memory bits                  ; N/A until Partition Merge                  ;
-; Embedded Multiplier 9-bit elements ; N/A until Partition Merge                  ;
-; Total GXB Receiver Channel PCS     ; N/A until Partition Merge                  ;
-; Total GXB Receiver Channel PMA     ; N/A until Partition Merge                  ;
-; Total GXB Transmitter Channel PCS  ; N/A until Partition Merge                  ;
-; Total GXB Transmitter Channel PMA  ; N/A until Partition Merge                  ;
-; Total PLLs                         ; N/A until Partition Merge                  ;
+; Total logic elements               ; 0                                          ;
+;     Total combinational functions  ; 0                                          ;
+;     Dedicated logic registers      ; 0                                          ;
+; Total registers                    ; 0                                          ;
+; Total pins                         ; 2                                          ;
+; Total virtual pins                 ; 0                                          ;
+; Total memory bits                  ; 0                                          ;
+; Embedded Multiplier 9-bit elements ; 0                                          ;
+; Total GXB Receiver Channel PCS     ; 0                                          ;
+; Total GXB Receiver Channel PMA     ; 0                                          ;
+; Total GXB Transmitter Channel PCS  ; 0                                          ;
+; Total GXB Transmitter Channel PMA  ; 0                                          ;
+; Total PLLs                         ; 0                                          ;
 +------------------------------------+--------------------------------------------+
 
 
@@ -155,13 +165,129 @@ Parallel compilation was disabled, but you have multiple processors available. E
 +----------------------------+--------+
 
 
++-------------------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis Source Files Read                                                                                        ;
++----------------------------------+-----------------+-----------------+----------------------------------------------+---------+
+; File Name with User-Entered Path ; Used in Netlist ; File Type       ; File Name with Absolute Path                 ; Library ;
++----------------------------------+-----------------+-----------------+----------------------------------------------+---------+
+; XREGS.vhd                        ; yes             ; User VHDL File  ; C:/altera/OAC/RISC-V-OAC/XREGS.vhd           ;         ;
+; ulaRV.vhd                        ; yes             ; User VHDL File  ; C:/altera/OAC/RISC-V-OAC/ulaRV.vhd           ;         ;
+; rom_rv.vhd                       ; yes             ; User VHDL File  ; C:/altera/OAC/RISC-V-OAC/rom_rv.vhd          ;         ;
+; ram_rv.vhd                       ; yes             ; User VHDL File  ; C:/altera/OAC/RISC-V-OAC/ram_rv.vhd          ;         ;
+; genImm32.vhd                     ; yes             ; User VHDL File  ; C:/altera/OAC/RISC-V-OAC/genImm32.vhd        ;         ;
+; RISC_V_Uniciclo.vhd              ; yes             ; User VHDL File  ; C:/altera/OAC/RISC-V-OAC/RISC_V_Uniciclo.vhd ;         ;
+; ControlUnit.vhd                  ; yes             ; User VHDL File  ; C:/altera/OAC/RISC-V-OAC/ControlUnit.vhd     ;         ;
+; ALU_Control.vhd                  ; yes             ; User VHDL File  ; C:/altera/OAC/RISC-V-OAC/ALU_Control.vhd     ;         ;
+; PC.vhd                           ; yes             ; User VHDL File  ; C:/altera/OAC/RISC-V-OAC/PC.vhd              ;         ;
+; mux_2to1.vhd                     ; yes             ; User VHDL File  ; C:/altera/OAC/RISC-V-OAC/mux_2to1.vhd        ;         ;
++----------------------------------+-----------------+-----------------+----------------------------------------------+---------+
+
+
++---------------------------------------------+
+; Analysis & Synthesis Resource Usage Summary ;
++--------------------------+------------------+
+; Resource                 ; Usage            ;
++--------------------------+------------------+
+; I/O pins                 ; 2                ;
+; DSP block 9-bit elements ; 0                ;
+; Maximum fan-out node     ; clk              ;
+; Maximum fan-out          ; 1                ;
+; Total fan-out            ; 2                ;
+; Average fan-out          ; 0.50             ;
++--------------------------+------------------+
+
+
++-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis Resource Utilization by Entity                                                                                                                                     ;
++----------------------------+-------------------+--------------+-------------+--------------+---------+-----------+-----------+------+--------------+---------------------+--------------+
+; Compilation Hierarchy Node ; LC Combinationals ; LC Registers ; Memory Bits ; DSP Elements ; DSP 9x9 ; DSP 18x18 ; DSP 36x36 ; Pins ; Virtual Pins ; Full Hierarchy Name ; Library Name ;
++----------------------------+-------------------+--------------+-------------+--------------+---------+-----------+-----------+------+--------------+---------------------+--------------+
+; |RISC_V_Uniciclo           ; 0 (0)             ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0         ; 2    ; 0            ; |RISC_V_Uniciclo    ; work         ;
++----------------------------+-------------------+--------------+-------------+--------------+---------+-----------+-----------+------+--------------+---------------------+--------------+
+Note: For table entries with two numbers listed, the numbers in parentheses indicate the number of resources of the given type used by the specific entity alone. The numbers listed outside of parentheses indicate the total resources of the given type used by the specific entity and all of its sub-entities in the hierarchy.
+
+
++------------------------------------------------------+
+; General Register Statistics                          ;
++----------------------------------------------+-------+
+; Statistic                                    ; Value ;
++----------------------------------------------+-------+
+; Total registers                              ; 0     ;
+; Number of registers using Synchronous Clear  ; 0     ;
+; Number of registers using Synchronous Load   ; 0     ;
+; Number of registers using Asynchronous Clear ; 0     ;
+; Number of registers using Asynchronous Load  ; 0     ;
+; Number of registers using Clock Enable       ; 0     ;
+; Number of registers using Preset             ; 0     ;
++----------------------------------------------+-------+
+
+
++------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: genImm32:dp_IMM_GEN ;
++----------------+-------+-----------------------------------------+
+; Parameter Name ; Value ; Type                                    ;
++----------------+-------+-----------------------------------------+
+; SIZEWORD       ; 32    ; Signed Integer                          ;
++----------------+-------+-----------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++---------------------------------------------------------+
+; Parameter Settings for User Entity Instance: ULA:dp_ULA ;
++----------------+-------+--------------------------------+
+; Parameter Name ; Value ; Type                           ;
++----------------+-------+--------------------------------+
+; WSIZE          ; 32    ; Signed Integer                 ;
++----------------+-------+--------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++-------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: XREGS:dp_XREGS ;
++----------------+-------+------------------------------------+
+; Parameter Name ; Value ; Type                               ;
++----------------+-------+------------------------------------+
+; WSIZE          ; 32    ; Signed Integer                     ;
+; REGS           ; 32    ; Signed Integer                     ;
++----------------+-------+------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++-------------------------------------------+
+; Port Connectivity Checks: "ram_rv:dp_RAM" ;
++---------+-------+----------+--------------+
+; Port    ; Type  ; Severity ; Details      ;
++---------+-------+----------+--------------+
+; byte_en ; Input ; Info     ; Stuck at GND ;
+; sgn_en  ; Input ; Info     ; Stuck at GND ;
++---------+-------+----------+--------------+
+
+
++-------------------------------------------------------------------------------------------------------------------------------------+
+; Port Connectivity Checks: "ControlUnit:dp_CONTROL"                                                                                  ;
++------+--------+----------+----------------------------------------------------------------------------------------------------------+
+; Port ; Type   ; Severity ; Details                                                                                                  ;
++------+--------+----------+----------------------------------------------------------------------------------------------------------+
+; zero ; Output ; Warning  ; Declared by entity but not connected by instance. Logic that only feeds a dangling port will be removed. ;
++------+--------+----------+----------------------------------------------------------------------------------------------------------+
+
+
++-------------------------------+
+; Elapsed Time Per Partition    ;
++----------------+--------------+
+; Partition Name ; Elapsed Time ;
++----------------+--------------+
+; Top            ; 00:00:00     ;
++----------------+--------------+
+
+
 +-------------------------------+
 ; Analysis & Synthesis Messages ;
 +-------------------------------+
 Info: *******************************************************************
 Info: Running Quartus II 64-Bit Analysis & Synthesis
     Info: Version 13.1.0 Build 162 10/23/2013 SJ Web Edition
-    Info: Processing started: Tue Feb 25 00:34:28 2025
+    Info: Processing started: Tue Feb 25 08:24:21 2025
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off RISCV_OAC -c RISCV_OAC
 Warning (20028): Parallel compilation is not licensed and has been disabled
 Info (12021): Found 2 design units, including 1 entities, in source file xregs.vhd
@@ -188,19 +314,40 @@ Info (12021): Found 2 design units, including 1 entities, in source file control
 Info (12021): Found 2 design units, including 1 entities, in source file alu_control.vhd
     Info (12022): Found design unit 1: ALU_Control-Behavioral
     Info (12023): Found entity 1: ALU_Control
-Error (10500): VHDL syntax error at PC.vhd(31) near text "process";  expecting "if" File: C:/altera/OAC/RISC-V-OAC/PC.vhd Line: 31
-Error (10500): VHDL syntax error at PC.vhd(36) near text "Behavioral";  expecting "if" File: C:/altera/OAC/RISC-V-OAC/PC.vhd Line: 36
-Info (12021): Found 0 design units, including 0 entities, in source file pc.vhd
-Info (12021): Found 2 design units, including 1 entities, in source file risc_v_uniciclo_tb.vhd
-    Info (12022): Found design unit 1: RISC_V_Uniciclo_TB-Behavioral
-    Info (12023): Found entity 1: RISC_V_Uniciclo_TB
+Info (12021): Found 2 design units, including 1 entities, in source file pc.vhd
+    Info (12022): Found design unit 1: PC-Behavioral
+    Info (12023): Found entity 1: PC
+Warning (12019): Can't analyze file -- file RISC_V_Uniciclo_TB.vhd is missing
 Info (12021): Found 2 design units, including 1 entities, in source file mux_2to1.vhd
     Info (12022): Found design unit 1: mux_2to1-Behavioral
     Info (12023): Found entity 1: mux_2to1
-Error: Quartus II 64-Bit Analysis & Synthesis was unsuccessful. 2 errors, 1 warning
-    Error: Peak virtual memory: 4707 megabytes
-    Error: Processing ended: Tue Feb 25 00:34:29 2025
-    Error: Elapsed time: 00:00:01
-    Error: Total CPU time (on all processors): 00:00:01
+Info (12127): Elaborating entity "RISC_V_Uniciclo" for the top level hierarchy
+Info (12128): Elaborating entity "PC" for hierarchy "PC:dp_PC"
+Info (12128): Elaborating entity "rom_rv" for hierarchy "rom_rv:dp_INSTRUC_MEM"
+Warning (10543): VHDL Variable Declaration warning at rom_rv.vhd(25): used default initial value for variable "open_status" because variable was never assigned a value or an initial value expression. Use of default initial value may introduce unintended design optimizations.
+Warning (10492): VHDL Process Statement warning at rom_rv.vhd(53): signal "mem" is read inside the Process Statement but isn't in the Process Statement's sensitivity list
+Info (12128): Elaborating entity "ControlUnit" for hierarchy "ControlUnit:dp_CONTROL"
+Info (12128): Elaborating entity "genImm32" for hierarchy "genImm32:dp_IMM_GEN"
+Info (12128): Elaborating entity "ALU_Control" for hierarchy "ALU_Control:dp_ALU_CONTROL"
+Info (12128): Elaborating entity "mux_2to1" for hierarchy "mux_2to1:dp_MUX_MEM_ALU"
+Info (12128): Elaborating entity "ULA" for hierarchy "ULA:dp_ULA"
+Warning (10492): VHDL Process Statement warning at ulaRV.vhd(78): signal "result_internal" is read inside the Process Statement but isn't in the Process Statement's sensitivity list
+Warning (10492): VHDL Process Statement warning at ulaRV.vhd(81): signal "result_internal" is read inside the Process Statement but isn't in the Process Statement's sensitivity list
+Info (12128): Elaborating entity "XREGS" for hierarchy "XREGS:dp_XREGS"
+Info (12128): Elaborating entity "ram_rv" for hierarchy "ram_rv:dp_RAM"
+Warning (12241): 1 hierarchies have connectivity warnings - see the Connectivity Checks report folder
+Info (16010): Generating hard_block partition "hard_block:auto_generated_inst"
+    Info (16011): Adding 0 node(s), including 0 DDIO, 0 PLL, 0 transceiver and 0 LCELL
+Warning (21074): Design contains 2 input pin(s) that do not drive logic
+    Warning (15610): No output dependent on input pin "clk"
+    Warning (15610): No output dependent on input pin "reset"
+Info (21057): Implemented 2 device resources after synthesis - the final resource count might be different
+    Info (21058): Implemented 2 input pins
+    Info (21059): Implemented 0 output pins
+Info: Quartus II 64-Bit Analysis & Synthesis was successful. 0 errors, 10 warnings
+    Info: Peak virtual memory: 4931 megabytes
+    Info: Processing ended: Tue Feb 25 08:24:26 2025
+    Info: Elapsed time: 00:00:05
+    Info: Total CPU time (on all processors): 00:00:04
 
 

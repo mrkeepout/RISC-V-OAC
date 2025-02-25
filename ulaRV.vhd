@@ -16,69 +16,69 @@ entity ULA is
 end ULA;
 
 architecture Behavioral of ULA is
-    signal result_internal : STD_LOGIC_VECTOR(WSIZE-1 downto 0);
 begin
     process(A, B, control)
+        variable result_temp : STD_LOGIC_VECTOR(WSIZE-1 downto 0); -- troquei signal por variable
     begin
         case control is
-            when "0000" => result_internal <= std_logic_vector(signed(A) + signed(B)); -- ADD
-            when "0001" => result_internal <= std_logic_vector(signed(A) - signed(B)); -- SUB
-            when "0010" => result_internal <= A and B; -- AND
-            when "0011" => result_internal <= A or B;  -- OR
-            when "0100" => result_internal <= A xor B; -- XOR
-            when "0101" => result_internal <= std_logic_vector(shift_left(unsigned(A), to_integer(unsigned(B)))); -- SLL
-            when "0110" => result_internal <= std_logic_vector(shift_right(unsigned(A), to_integer(unsigned(B)))); -- SRL
-            when "0111" => result_internal <= std_logic_vector(shift_right(signed(A), to_integer(unsigned(B)))); -- SRA
+            when "0000" => result_temp := std_logic_vector(signed(A) + signed(B)); -- ADD
+            when "0001" => result_temp := std_logic_vector(signed(A) - signed(B)); -- SUB
+            when "0010" => result_temp := A and B; -- AND
+            when "0011" => result_temp := A or B;  -- OR
+            when "0100" => result_temp := A xor B; -- XOR
+            when "0101" => result_temp := std_logic_vector(shift_left(unsigned(A), to_integer(unsigned(B)))); -- SLL
+            when "0110" => result_temp := std_logic_vector(shift_right(unsigned(A), to_integer(unsigned(B)))); -- SRL
+            when "0111" => result_temp := std_logic_vector(shift_right(signed(A), to_integer(unsigned(B)))); -- SRA
             when "1000" => -- SLT (Set Less Than)
                 if signed(A) < signed(B) then
-                    result_internal <= (others => '0');
-                    result_internal(0) <= '1';  -- Resultado = 1
+                    result_temp := (others => '0');
+                    result_temp(0) := '1';  -- Resultado = 1
                 else
-                    result_internal <= (others => '0');  -- Resultado = 0
+                    result_temp := (others => '0');  -- Resultado = 0
                 end if;
             when "1001" => -- SLTU (Set Less Than Unsigned)
                 if unsigned(A) < unsigned(B) then
-                    result_internal <= (others => '0');
-                    result_internal(0) <= '1';  -- Resultado = 1
+                    result_temp := (others => '0');
+                    result_temp(0) := '1';  -- Resultado = 1
                 else
-                    result_internal <= (others => '0');  -- Resultado = 0
+                    result_temp := (others => '0');  -- Resultado = 0
                 end if;
             when "1010" => -- SGE (Set Greater Than or Equal)
                 if signed(A) >= signed(B) then
-                    result_internal <= (others => '0');
-                    result_internal(0) <= '1';  -- Resultado = 1
+                    result_temp := (others => '0');
+                    result_temp(0) := '1';  -- Resultado = 1
                 else
-                    result_internal <= (others => '0');  -- Resultado = 0
+                    result_temp := (others => '0');  -- Resultado = 0
                 end if;
             when "1011" => -- SGEU (Set Greater Than or Equal Unsigned)
                 if unsigned(A) >= unsigned(B) then
-                    result_internal <= (others => '0');
-                    result_internal(0) <= '1';  -- Resultado = 1
+                    result_temp := (others => '0');
+                    result_temp(0) := '1';  -- Resultado = 1
                 else
-                    result_internal <= (others => '0');  -- Resultado = 0
+                    result_temp := (others => '0');  -- Resultado = 0
                 end if;
             when "1100" => -- SEQ (Set Equal)
                 if A = B then
-                    result_internal <= (others => '0');
-                    result_internal(0) <= '1';  -- Resultado = 1
+                    result_temp := (others => '0');
+                    result_temp(0) := '1';  -- Resultado = 1
                 else
-                    result_internal <= (others => '0');  -- Resultado = 0
+                    result_temp := (others => '0');  -- Resultado = 0
                 end if;
             when "1101" => -- SNE (Set Not Equal)
                 if A /= B then
-                    result_internal <= (others => '0');
-                    result_internal(0) <= '1';  -- Resultado = 1
+                    result_temp := (others => '0');
+                    result_temp(0) := '1';  -- Resultado = 1
                 else
-                    result_internal <= (others => '0');  -- Resultado = 0
+                    result_temp := (others => '0');  -- Resultado = 0
                 end if;
-            when others => result_internal <= (others => '0');  -- Operação inválida
+            when others => result_temp := (others => '0');  -- Operação inválida
         end case;
 
-        -- Atribui o resultado interno à saída
-        result <= result_internal;
+        -- Atribui o resultado à saída
+        result <= result_temp;
 
         -- Sinal "zero" (1 se o resultado for zero)
-        if result_internal = (result_internal'range => '0') then
+        if result_temp = (result_temp'range => '0') then
             zero <= '1';
         else
             zero <= '0';

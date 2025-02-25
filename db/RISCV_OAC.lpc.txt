@@ -4,7 +4,7 @@
 ; Hierarchy      ; Input ; Constant Input ; Unused Input ; Floating Input ; Output ; Constant Output ; Unused Output ; Floating Output ; Bidir ; Constant Bidir ; Unused Bidir ; Input only Bidir ; Output only Bidir ;
 +----------------+-------+----------------+--------------+----------------+--------+-----------------+---------------+-----------------+-------+----------------+--------------+------------------+-------------------+
 ; dp_RAM         ; 49    ; 2              ; 0            ; 2              ; 32     ; 2               ; 2             ; 2               ; 0     ; 0              ; 0            ; 0                ; 0                 ;
-; dp_XREGS       ; 50    ; 0              ; 2            ; 0              ; 64     ; 0               ; 0             ; 0               ; 0     ; 0              ; 0            ; 0                ; 0                 ;
+; dp_XREGS       ; 50    ; 0              ; 0            ; 0              ; 64     ; 0               ; 0             ; 0               ; 0     ; 0              ; 0            ; 0                ; 0                 ;
 ; dp_ULA         ; 68    ; 0              ; 0            ; 0              ; 33     ; 0               ; 0             ; 0               ; 0     ; 0              ; 0            ; 0                ; 0                 ;
 ; dp_MUX_MEM_ALU ; 65    ; 0              ; 0            ; 0              ; 32     ; 0               ; 0             ; 0               ; 0     ; 0              ; 0            ; 0                ; 0                 ;
 ; dp_ALU_CONTROL ; 12    ; 0              ; 0            ; 0              ; 4      ; 0               ; 0             ; 0               ; 0     ; 0              ; 0            ; 0                ; 0                 ;
