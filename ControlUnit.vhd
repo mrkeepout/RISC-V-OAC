@@ -14,8 +14,8 @@ entity ControlUnit is
         mem_to_reg      : out STD_LOGIC; 
         branch          : out STD_LOGIC;
         jump            : out STD_LOGIC;
-		  zero 				: out STD_LOGIC;
-        AluOP     : out STD_LOGIC_VECTOR(1 downto 0)
+		zero 			: out STD_LOGIC;
+        AluOP           : out STD_LOGIC_VECTOR(1 downto 0)
     );
 end ControlUnit;
 

@@ -1,8 +1,8 @@
 <sld_project_info>
   <project>
-    <hash md5_digest_80b="2f0f5647241d9ac3b4f8"/>
+    <hash md5_digest_80b="08ba7a82bc3d58adf93e"/>
   </project>
   <file_info>
-    <file device="EP4CGX22CF19C6" path="RISCV_OAC.sof" usercode="0xFFFFFFFF"/>
+    <file device="EP4CGX15BF14C6" path="RISCV_OAC.sof" usercode="0xFFFFFFFF"/>
   </file_info>
 </sld_project_info>

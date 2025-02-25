@@ -6,7 +6,7 @@ use ieee.std_logic_textio.all;
 
 entity rom_rv is
   port (
-    address : in  std_logic_vector(10 downto 0);  -- 11 bits de endereco
+    address : in  std_logic_vector(9 downto 0);  -- 12 bits de endereco (2 a 11 do PC - 1k word)
     instruction : out std_logic_vector(31 downto 0)   -- 32 bits de saida
   );
 end entity rom_rv;
@@ -33,7 +33,7 @@ architecture rtl of rom_rv is
 				hread(text_line, rom_content(i));  -- Le uma palavra de 32 bits em hexadecimal
 				-- report "Endereco " & integer'image(i) & " carregado com valor " & to_hstring(temp);
 			else
-				rom_content(i) := (others => '0');  -- Preenche o restante com zeros
+				rom_content(i) := (others => '0');  
 			end if;
 		end loop;
 	end if;
